@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { CheckCircle2, ArrowRight, ArrowLeft } from "lucide-react";
 import { ContactFormData } from "../types";
+import { submitQuestionnaire } from "../lib/supabase";
 
 export default function Steps() {
   // Current step state
@@ -72,7 +73,7 @@ export default function Steps() {
     setStep(1);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.slowingDown) {
@@ -85,50 +86,38 @@ export default function Steps() {
     }
 
     setIsSubmitting(true);
-    
-    // URL-encoding helper for Netlify forms
-    const encode = (data: Record<string, string>) => {
-      return Object.keys(data)
-        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-        .join("&");
-    };
+    setValidationError("");
 
-    // Post to Netlify forms endpoint
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({ 
-        "form-name": "prototype-inquiry", 
-        ...formData,
-        subject: `🐻 New inquiry from a ${formData.profession || "client"}!`
-      })
-    })
-      .then(() => {
-        setIsSubmitting(false);
-        setIsSubmitted(true);
-        
-        // Save query to localStorage for persistent state tracking
+    try {
+      // Submit questionnaire response directly to Supabase via SDK
+      // Looks up client where slug = 'bear-builds-web', retrieves UUID, and inserts into submissions table
+      const result = await submitQuestionnaire(formData);
+
+      if (!result.success) {
+        console.error("[Steps] Supabase submission error:", result.error);
+        setValidationError(result.error || "Failed to submit questionnaire. Please try again.");
+      } else {
+        console.log("[Steps] Successfully recorded submission in Supabase:", result.data);
+      }
+    } catch (err: any) {
+      console.error("[Steps] Exception handling submission:", err);
+      setValidationError("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+
+      // Save inquiry to localStorage for local client session persistence
+      try {
         const previousInquiries = JSON.parse(localStorage.getItem("bear_inquiries") || "[]");
         previousInquiries.push({
           ...formData,
           date: new Date().toISOString()
         });
         localStorage.setItem("bear_inquiries", JSON.stringify(previousInquiries));
-      })
-      .catch((error) => {
-        console.warn("Netlify Form submission fallback (expected in dev mode):", error);
-
-        // Fallback for local development/AI Studio preview
-        setIsSubmitting(false);
-        setIsSubmitted(true);
-        
-        const previousInquiries = JSON.parse(localStorage.getItem("bear_inquiries") || "[]");
-        previousInquiries.push({
-          ...formData,
-          date: new Date().toISOString()
-        });
-        localStorage.setItem("bear_inquiries", JSON.stringify(previousInquiries));
-      });
+      } catch (e) {
+        console.error("Failed saving inquiry to localStorage:", e);
+      }
+    }
   };
 
   const bookingOptions = [
