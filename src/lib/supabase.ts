@@ -36,9 +36,13 @@ export async function submitQuestionnaire(
 ): Promise<QuestionnaireSubmissionResult> {
   try {
     if (!isSupabaseConfigured()) {
-      console.warn(
-        "[Supabase] VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY is not configured in environment."
-      );
+      const msg =
+        "Supabase credentials missing. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your environment variables or GitHub repository Secrets/Variables.";
+      console.error("[Supabase]", msg);
+      return {
+        success: false,
+        error: msg,
+      };
     }
 
     // Step 1: Look up the client whose slug equals "bear-builds-web"
@@ -46,42 +50,51 @@ export async function submitQuestionnaire(
       .from("clients")
       .select("id")
       .eq("slug", "bear-builds-web")
-      .single();
+      .maybeSingle();
 
-    if (clientError || !client) {
-      const errorMessage =
-        clientError?.message || "Client with slug 'bear-builds-web' not found in database.";
+    if (clientError) {
+      const errorMessage = `Client query failed: ${clientError.message} (Code: ${clientError.code}). Please check RLS policy on 'clients' table in Supabase.`;
       console.error("[Supabase] Failed to retrieve client ID:", errorMessage);
       return {
         success: false,
-        error: `Client lookup failed: ${errorMessage}`,
+        error: errorMessage,
+      };
+    }
+
+    if (!client) {
+      const errorMessage = "No client found with slug 'bear-builds-web' in 'clients' table.";
+      console.error("[Supabase]", errorMessage);
+      return {
+        success: false,
+        error: errorMessage,
       };
     }
 
     // Step 2: Insert into submissions table
-    // Store complete questionnaire object directly in the responses JSONB column
-    const { data: submissionData, error: insertError } = await supabase
+    // Store complete questionnaire object directly in the responses JSONB column.
+    // Omit .select() to avoid requiring a SELECT policy on submissions for anon users.
+    const { error: insertError } = await supabase
       .from("submissions")
       .insert([
         {
           client_id: client.id,
           responses: responses,
         },
-      ])
-      .select();
+      ]);
 
     if (insertError) {
-      console.error("[Supabase] Failed inserting submission:", insertError.message);
+      const insertErrMsg = `Insert failed: ${insertError.message} (Code: ${insertError.code}). Please check RLS policy on 'submissions' table in Supabase.`;
+      console.error("[Supabase] Failed inserting submission:", insertErrMsg);
       return {
         success: false,
-        error: `Submission failed: ${insertError.message}`,
+        error: insertErrMsg,
       };
     }
 
-    console.log("[Supabase] Questionnaire submission inserted successfully:", submissionData);
+    console.log("[Supabase] Questionnaire submission inserted successfully into submissions table.");
     return {
       success: true,
-      data: submissionData,
+      data: { client_id: client.id, responses },
     };
   } catch (err: any) {
     const catchError = err?.message || "An unexpected error occurred during submission.";

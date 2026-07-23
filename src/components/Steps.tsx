@@ -98,25 +98,25 @@ export default function Steps() {
         setValidationError(result.error || "Failed to submit questionnaire. Please try again.");
       } else {
         console.log("[Steps] Successfully recorded submission in Supabase:", result.data);
+        setIsSubmitted(true);
+
+        // Save inquiry to localStorage for local client session persistence
+        try {
+          const previousInquiries = JSON.parse(localStorage.getItem("bear_inquiries") || "[]");
+          previousInquiries.push({
+            ...formData,
+            date: new Date().toISOString()
+          });
+          localStorage.setItem("bear_inquiries", JSON.stringify(previousInquiries));
+        } catch (e) {
+          console.error("Failed saving inquiry to localStorage:", e);
+        }
       }
     } catch (err: any) {
       console.error("[Steps] Exception handling submission:", err);
       setValidationError("An unexpected error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-
-      // Save inquiry to localStorage for local client session persistence
-      try {
-        const previousInquiries = JSON.parse(localStorage.getItem("bear_inquiries") || "[]");
-        previousInquiries.push({
-          ...formData,
-          date: new Date().toISOString()
-        });
-        localStorage.setItem("bear_inquiries", JSON.stringify(previousInquiries));
-      } catch (e) {
-        console.error("Failed saving inquiry to localStorage:", e);
-      }
     }
   };
 
