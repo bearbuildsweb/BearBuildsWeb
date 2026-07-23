@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>Bear Builds Web</title>
+  </head>
+  <body>
+    <!-- Hidden form for Netlify Crawler form detection -->
+    <form name="prototype-inquiry" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="profession" />
+      <input type="text" name="onlinePresence" />
+      <input type="text" name="bookingProcess" />
+      <input type="text" name="slowingDown" />
+      <input type="email" name="email" />
+    <input 
+      type="hidden" 
+      name="subject" 
+      value="New %{profession} Lead" 
+    />
+    </form>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
