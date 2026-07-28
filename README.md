@@ -1,20 +1,17 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+<h1 align="center">
+  <a href="https://bearbuildsweb.co.za" style="text-decoration:none;">
+    <span style="font-size:96px;">🐻</span>
+    <br>
+    Bear Builds Web
+  </a>
+</h1>
 
-# Run and deploy your AI Studio app
+<p align="center">
+  Booking platforms engineered for solo professionals.
+</p>
 
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/425ebe3a-075a-4f91-936b-332027d6f49d
-
-## Run Locally
-
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+<p align="center">
+  <a href="https://bearbuildsweb.co.za">
+    🌐 bearbuildsweb.co.za
+  </a>
+</p>
