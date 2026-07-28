@@ -1,6 +1,6 @@
 <h1 align="center">
-  <a href="https://bearbuildsweb.co.za" style="text-decoration:none;">
-    <span style="font-size:96px;">🐻</span>
+  <a href="https://bearbuildsweb.co.za">
+    🐻
     <br>
     Bear Builds Web
   </a>
@@ -8,10 +8,4 @@
 
 <p align="center">
   Booking platforms engineered for solo professionals.
-</p>
-
-<p align="center">
-  <a href="https://bearbuildsweb.co.za">
-    🌐 bearbuildsweb.co.za
-  </a>
 </p>
