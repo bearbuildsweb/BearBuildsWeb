@@ -35,7 +35,7 @@
 ---
 
 <p align="center">
-  <i>"Less time in WhatsApp. More time doing what you love."</i>
+  <i>"Less time on Admin More time doing what you love."</i>
 </p>
 
 <p align="center">
