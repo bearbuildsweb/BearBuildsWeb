@@ -88,46 +88,39 @@ export default function Steps() {
     setValidationError("");
 
     try {
-      const payload = {
-        profession: formData.profession,
-        onlinePresence: formData.onlinePresence,
-        bookingProcess: formData.bookingProcess,
-        slowingDown: formData.slowingDown,
-        email: formData.email
-      };
+      const response = await fetch(
+        "https://kjwbwfizbbfzfvvlltea.supabase.co/functions/v1/send-email",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-      const response = await fetch("https://kjwbwfizbbfzfvvlltea.supabase.co/functions/v1/send-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
-
-      const text = await response.text();
-      console.log("Edge Function Response:", text);
+      const result = await response.json();
 
       if (!response.ok) {
-        console.error("Edge Function failed:", text);
-        setValidationError("Failed to submit questionnaire. Please try again.");
-      } else {
-        setIsSubmitted(true);
+        throw new Error(result.error ?? "Submission failed");
+      }
 
-        // Save inquiry to localStorage for local client session persistence
-        try {
-          const previousInquiries = JSON.parse(localStorage.getItem("bear_inquiries") || "[]");
-          previousInquiries.push({
-            ...formData,
-            date: new Date().toISOString()
-          });
-          localStorage.setItem("bear_inquiries", JSON.stringify(previousInquiries));
-        } catch (e) {
-          console.error("Failed saving inquiry to localStorage:", e);
-        }
+      setIsSubmitted(true);
+
+      // Save inquiry to localStorage for local client session persistence
+      try {
+        const previousInquiries = JSON.parse(localStorage.getItem("bear_inquiries") || "[]");
+        previousInquiries.push({
+          ...formData,
+          date: new Date().toISOString()
+        });
+        localStorage.setItem("bear_inquiries", JSON.stringify(previousInquiries));
+      } catch (e) {
+        console.error("Failed saving inquiry to localStorage:", e);
       }
     } catch (err: any) {
       console.error("[Steps] Exception handling submission:", err);
-      setValidationError("An unexpected error occurred. Please try again.");
+      setValidationError(err.message || "An unexpected error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
