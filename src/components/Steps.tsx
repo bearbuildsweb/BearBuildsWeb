@@ -533,7 +533,7 @@ export default function Steps() {
 
                       <div className="pt-2 border-t border-brand-text/15 flex items-center justify-between font-mono text-[11px]">
                         <span className="text-brand-text/60 uppercase tracking-wider font-semibold">
-                          Estimated turnaround
+                          Expected Delivery
                         </span>
                         <span className="font-black text-brand-text bg-brand-text/5 px-2.5 py-0.5 border border-brand-text/20">
                           72 Hours
