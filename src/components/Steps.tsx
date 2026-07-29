@@ -430,7 +430,7 @@ export default function Steps() {
                             {isSubmitting ? (
                               <>
                                 <div className="w-4 h-4 border-2 border-brand-bg/30 border-t-brand-bg rounded-full animate-spin" />
-                                <span>Preparing Blueprint...</span>
+                                <span>Sending Request...</span>
                               </>
                             ) : (
                               <span>Build My Prototype</span>
