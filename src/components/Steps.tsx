@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { CheckCircle2, ArrowRight, ArrowLeft, AlertCircle } from "lucide-react";
 import { ContactFormData } from "../types";
-import { submitQuestionnaire } from "../lib/supabase";
 
 export default function Steps() {
   // Current step state
@@ -89,41 +88,29 @@ export default function Steps() {
     setValidationError("");
 
     try {
-      // Submit questionnaire response directly to Supabase via SDK
-      // Looks up client where slug = 'bear-builds-web', retrieves UUID, and inserts into submissions table
-      const result = await submitQuestionnaire(formData);
+      const payload = {
+        profession: formData.profession,
+        onlinePresence: formData.onlinePresence,
+        bookingProcess: formData.bookingProcess,
+        slowingDown: formData.slowingDown,
+        email: formData.email
+      };
 
-      if (!result.success) {
-        console.error("[Steps] Supabase submission error:", result.error);
-        setValidationError(result.error || "Failed to submit questionnaire. Please try again.");
+      const response = await fetch("https://kjwbwfizbbfzfvvlltea.supabase.co/functions/v1/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const text = await response.text();
+      console.log("Edge Function Response:", text);
+
+      if (!response.ok) {
+        console.error("Edge Function failed:", text);
+        setValidationError("Failed to submit questionnaire. Please try again.");
       } else {
-        console.log("[Steps] Successfully recorded submission in Supabase:", result.data);
-
-        // POST directly to Supabase Edge Function to trigger email
-        try {
-          const payload = {
-            profession: formData.profession,
-            onlinePresence: formData.onlinePresence,
-            bookingProcess: formData.bookingProcess,
-            slowingDown: formData.slowingDown,
-            email: formData.email
-          };
-
-          const response = await fetch("https://kjwbwfizbbfzfvvlltea.supabase.co/functions/v1/send-email", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
-          });
-
-          if (!response.ok) {
-            console.error("[Steps] Edge Function send-email failed:", response.status, response.statusText);
-          }
-        } catch (edgeError) {
-          console.error("[Steps] Error calling send-email Edge Function:", edgeError);
-        }
-
         setIsSubmitted(true);
 
         // Save inquiry to localStorage for local client session persistence
