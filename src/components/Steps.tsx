@@ -287,8 +287,9 @@ export default function Steps() {
                             >
                               <option value="" disabled>Choose what you do...</option>
                               <option value="Photographer">Photographer</option>
+                              <option value="Mobile Physiotherapist">Mobile Physiotherapist</option>
                               <option value="Makeup Artist">Makeup Artist</option>
-                              <option value="Mobile Physio">Mobile Physio</option>
+                              <option value="Landscaper">Landscaper</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-brand-text">
                               <span className="text-[10px]">▼</span>

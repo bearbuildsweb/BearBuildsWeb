@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "motion/react";
-import { ArrowDown, Mail, Award, CheckCircle2, BadgeCheck } from "lucide-react";
+import { ArrowDown, Mail, CheckCircle2, BadgeCheck, Linkedin, ArrowUpRight } from "lucide-react";
 // @ts-ignore
 import bearPortrait from "../assets/images/heroIMG.png";
 
@@ -82,40 +82,67 @@ export default function Hero({ onContactClick, onWhoIHelpClick }: HeroProps) {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="lg:col-span-5 relative flex justify-center items-center"
+          className="lg:col-span-5 relative flex flex-col items-center"
         >
           {/* Main Visual Container */}
-          <div className="relative w-full max-w-[350px] md:max-w-[400px] aspect-square">
+          <div className="relative w-full max-w-[350px] md:max-w-[400px]">
             
-            {/* Elegant rectangular layered shadows and colored sheets characteristic of modern editorial design */}
-            <div className="absolute inset-0 bg-brand-accent/5 border border-brand-accent/20 rotate-[-4deg] scale-102 pointer-events-none transition-all duration-500" />
-            <div className="absolute inset-0 bg-brand-text/5 border border-brand-text/20 rotate-[4deg] scale-102 pointer-events-none transition-all duration-500" />
-            
-            {/* The Image itself - styled with a thick classy dark border */}
-            <div className="relative w-full h-full overflow-hidden border-2 border-brand-text bg-brand-accent/5">
-              <img 
-                src={bearPortrait} 
-                alt="Bear - Custom Web Specialist" 
-                className="w-full h-full object-cover grayscale transition-all duration-700 hover:grayscale-0 hover:scale-105"
-                referrerPolicy="no-referrer"
-              />
-            </div>
+            {/* Aspect square photo container */}
+            <div className="relative w-full aspect-square">
+              {/* Elegant rectangular layered shadows and colored sheets characteristic of modern editorial design */}
+              <div className="absolute inset-0 bg-brand-accent/5 border border-brand-accent/20 rotate-[-4deg] scale-102 pointer-events-none transition-all duration-500" />
+              <div className="absolute inset-0 bg-brand-text/5 border border-brand-text/20 rotate-[4deg] scale-102 pointer-events-none transition-all duration-500" />
+              
+              {/* The Image itself - styled with a thick classy dark border */}
+              <div className="relative w-full h-full overflow-hidden border-2 border-brand-text bg-brand-accent/5">
+                <img 
+                  src={bearPortrait} 
+                  alt="Bear - Custom Web Specialist" 
+                  className="w-full h-full object-cover grayscale transition-all duration-700 hover:grayscale-0 hover:scale-105"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
 
-            {/* Floating brand slogan matching visual collage style */}
-            <div className="absolute -bottom-6 -left-6 bg-brand-bg p-5 rounded-none border-2 border-brand-text max-w-[220px] shadow-md">
-              <p className="font-serif italic font-medium text-sm text-brand-text leading-snug">
-                Full stack web-developer with customer service experience
-              </p>
-              <div className="mt-3 flex items-center gap-1.5 text-brand-accent font-mono font-bold text-[11px] tracking-widest uppercase">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>MOEMEDI "BEAR"</span>
+              {/* Floating brand slogan / Biography card matching visual collage style */}
+              <div className="absolute -bottom-6 -left-6 bg-brand-bg p-5 rounded-none border-2 border-brand-text max-w-[220px] shadow-md z-10">
+                <p className="font-serif italic font-medium text-sm text-brand-text leading-snug">
+                  Full stack web-developer with customer service experience
+                </p>
+                <div className="mt-3 flex items-center gap-1.5 text-brand-accent font-mono font-bold text-[11px] tracking-widest uppercase">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>MOEMEDI "BEAR"</span>
+                </div>
+              </div>
+
+              {/* Float badge with golden touch */}
+              <div className="absolute -top-4 -right-4 bg-brand-accent text-white p-3.5 border-2 border-brand-text shadow-sm flex items-center justify-center">
+                <BadgeCheck className="w-6 h-6 text-white" />
               </div>
             </div>
 
-            {/* Float badge with golden touch */}
-            <div className="absolute -top-4 -right-4 bg-brand-accent text-white p-3.5 border-2 border-brand-text shadow-sm flex items-center justify-center">
-              <BadgeCheck className="w-6 h-6 text-white" />
-            </div>
+            {/* LinkedIn Verification Row directly beneath existing biography card */}
+            <a
+              href="https://www.linkedin.com/in/albert-moemedi-leeu"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-10 md:mt-12 bg-white border-2 border-brand-text p-3.5 md:p-4 shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] hover:border-brand-accent hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-between gap-3 group text-left cursor-pointer select-none"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-none border border-brand-text/15 bg-brand-bg flex items-center justify-center text-brand-text group-hover:text-brand-accent group-hover:border-brand-accent/30 transition-colors shrink-0">
+                  <Linkedin className="w-4 h-4 text-brand-text group-hover:text-brand-accent transition-colors" />
+                </div>
+                <div className="space-y-0.5 text-right">
+                  <span className="font-mono text-[10px] font-black text-brand-text group-hover:text-brand-accent uppercase tracking-wider block transition-colors">
+                    VERIFY PROFESSIONAL PROFILE
+                  </span>
+                  <span className="font-sans text-[11px] text-brand-text/70 leading-tight block">
+                    View experience & education
+                  </span>
+                </div>
+              </div>
+              <ArrowUpRight className="w-4 h-4 text-brand-text/50 group-hover:text-brand-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
+            </a>
+
           </div>
         </motion.div>
 
