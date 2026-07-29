@@ -99,10 +99,24 @@ export default function Steps() {
         }
       );
 
-      const result = await response.json();
+      let result: any = {};
+      try {
+        result = await response.json();
+      } catch (e) {
+        console.error("Failed to parse response JSON:", e);
+      }
+
+      console.log("Edge Function result:", response.status, result);
 
       if (!response.ok) {
-        throw new Error(result.error ?? "Submission failed");
+        const errorMsg =
+          typeof result.error === "string"
+            ? result.error
+            : result.error?.message ||
+              result.message ||
+              (result.stage ? `Submission failed at stage '${result.stage}': ${JSON.stringify(result.error || {})}` : null) ||
+              `Submission failed (status ${response.status})`;
+        throw new Error(errorMsg);
       }
 
       setIsSubmitted(true);
@@ -120,7 +134,12 @@ export default function Steps() {
       }
     } catch (err: any) {
       console.error("[Steps] Exception handling submission:", err);
-      setValidationError(err.message || "An unexpected error occurred. Please try again.");
+      const isFetchError = err.name === "TypeError" || err.message === "Failed to fetch";
+      setValidationError(
+        isFetchError
+          ? "Failed to connect to Edge Function (CORS preflight or network error). Please ensure CORS headers are configured in your Supabase Edge Function."
+          : err.message || "An unexpected error occurred. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
