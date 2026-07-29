@@ -3,6 +3,35 @@ import { motion, AnimatePresence } from "motion/react";
 import { CheckCircle2, ArrowRight, ArrowLeft, AlertCircle } from "lucide-react";
 import { ContactFormData } from "../types";
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35, ease: "easeOut" },
+  },
+};
+
+const iconVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.4, ease: "easeOut" },
+  },
+};
+
 export default function Steps() {
   // Current step state
   const [step, setStep] = useState(1);
@@ -20,8 +49,9 @@ export default function Steps() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleReset = (e?: React.MouseEvent) => {
+  const handleDone = (e?: React.MouseEvent) => {
     if (e) e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setFormData({
       profession: "",
       onlinePresence: "",
@@ -444,36 +474,83 @@ export default function Steps() {
                 ) : (
                   <motion.div 
                     key="success"
-                    className="text-center py-8 space-y-6"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="py-4 px-2 space-y-6 text-center max-w-xl mx-auto"
                   >
-                    <div className="inline-flex items-center justify-center w-14 h-14 bg-brand-accent/10 border-2 border-brand-accent text-brand-accent mx-auto rounded-none">
-                      <CheckCircle2 className="w-8 h-8 text-brand-accent" />
-                    </div>
-                    <div className="space-y-4">
-                      <h4 className="font-display font-black text-lg md:text-xl text-brand-text uppercase tracking-tight leading-snug">
+                    {/* Success Icon */}
+                    <motion.div variants={iconVariants} className="flex justify-center">
+                      <div className="inline-flex items-center justify-center w-18 h-18 bg-brand-accent/10 border-2 border-brand-accent text-brand-accent rounded-none shadow-[4px_4px_0px_0px_rgba(26,26,26,1)]">
+                        <CheckCircle2 className="w-10 h-10 text-brand-accent" />
+                      </div>
+                    </motion.div>
+
+                    {/* Heading & Subtitle */}
+                    <motion.div variants={itemVariants} className="space-y-2">
+                      <h4 className="font-display font-black text-xl md:text-2xl text-brand-text uppercase tracking-tight leading-snug">
                         PROTOTYPE REQUEST RECEIVED 🐻✅
                       </h4>
-                      <p className="font-serif italic font-bold text-sm md:text-base text-brand-text">
-                        You're in.
+                      <p className="font-serif italic font-bold text-base md:text-lg text-brand-text">
+                        That's everything I need.
                       </p>
-                      <p className="font-sans text-xs text-brand-text/75 max-w-md mx-auto leading-relaxed">
-                        Your prototype is now queued for build, and is on its way to{" "}
-                        <span className="bg-brand-accent/10 border border-brand-accent/20 px-1.5 py-0.5 text-brand-accent font-bold break-all inline-block select-all">
-                          {formData.email}
+                    </motion.div>
+
+                    {/* Supporting Copy */}
+                    <motion.p variants={itemVariants} className="font-sans text-xs md:text-sm text-brand-text/80 max-w-lg mx-auto leading-relaxed">
+                      Your prototype is officially in the build queue. A confirmation has been sent to{" "}
+                      <span className="bg-brand-accent/10 border border-brand-accent/20 px-2 py-0.5 text-brand-accent font-bold break-all inline-block select-all my-1">
+                        {formData.email}
+                      </span>{" "}
+                      within the next 72 hours.
+                    </motion.p>
+
+                    {/* Status Card */}
+                    <motion.div variants={itemVariants} className="bg-brand-bg border-2 border-brand-text p-4 md:p-5 text-left max-w-lg mx-auto shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] space-y-3">
+                      <div className="flex items-center justify-between border-b border-brand-text/15 pb-2">
+                        <span className="font-mono text-[10px] font-black text-brand-accent uppercase tracking-widest">
+                          STATUS
                         </span>
-                      </p>
-                    </div>
-                    <div className="pt-4">
-                      <a 
-                        href="#process" 
-                        onClick={handleReset}
-                        className="font-mono text-xs font-black text-brand-accent hover:text-brand-text underline underline-offset-4 decoration-2 uppercase transition-all tracking-widest"
+                        <span className="font-mono text-[9px] font-bold text-brand-text/50 uppercase tracking-wider">
+                          LIVE QUEUE
+                        </span>
+                      </div>
+
+                      <div className="space-y-2 font-mono text-xs text-brand-text">
+                        <div className="flex items-center gap-2.5">
+                          <span className="text-emerald-600 font-black text-sm">✓</span>
+                          <span>Questionnaire received</span>
+                        </div>
+                        <div className="flex items-center gap-2.5">
+                          <span className="text-emerald-600 font-black text-sm">✓</span>
+                          <span>Build queue confirmed</span>
+                        </div>
+                        <div className="flex items-center gap-2.5 font-bold text-brand-accent">
+                          <span className="text-sm">⏳</span>
+                          <span>Prototype in progress</span>
+                        </div>
+                      </div>
+
+                      <div className="pt-2 border-t border-brand-text/15 flex items-center justify-between font-mono text-[11px]">
+                        <span className="text-brand-text/60 uppercase tracking-wider font-semibold">
+                          Estimated turnaround
+                        </span>
+                        <span className="font-black text-brand-text bg-brand-text/5 px-2.5 py-0.5 border border-brand-text/20">
+                          72 Hours
+                        </span>
+                      </div>
+                    </motion.div>
+
+                    {/* Action / Done Button */}
+                    <motion.div variants={itemVariants} className="pt-2">
+                      <button
+                        type="button"
+                        onClick={handleDone}
+                        className="font-mono text-xs font-black text-brand-bg bg-brand-text hover:bg-brand-accent hover:text-white border-2 border-brand-text hover:border-brand-accent px-8 py-3.5 uppercase transition-all tracking-widest shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] active:translate-y-0.5 active:shadow-[2px_2px_0px_0px_rgba(26,26,26,1)] cursor-pointer"
                       >
-                        [ Back to Form ]
-                      </a>
-                    </div>
+                        [ DONE ]
+                      </button>
+                    </motion.div>
                   </motion.div>
                 )}
               </AnimatePresence>
