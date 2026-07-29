@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { CheckCircle2, ArrowRight, ArrowLeft } from "lucide-react";
+import { CheckCircle2, ArrowRight, ArrowLeft, AlertCircle } from "lucide-react";
 import { ContactFormData } from "../types";
 import { submitQuestionnaire } from "../lib/supabase";
 
@@ -98,6 +98,32 @@ export default function Steps() {
         setValidationError(result.error || "Failed to submit questionnaire. Please try again.");
       } else {
         console.log("[Steps] Successfully recorded submission in Supabase:", result.data);
+
+        // POST directly to Supabase Edge Function to trigger email
+        try {
+          const payload = {
+            profession: formData.profession,
+            onlinePresence: formData.onlinePresence,
+            bookingProcess: formData.bookingProcess,
+            slowingDown: formData.slowingDown,
+            email: formData.email
+          };
+
+          const response = await fetch("https://kjwbwfizbbfzfvvlltea.supabase.co/functions/v1/send-email", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          if (!response.ok) {
+            console.error("[Steps] Edge Function send-email failed:", response.status, response.statusText);
+          }
+        } catch (edgeError) {
+          console.error("[Steps] Error calling send-email Edge Function:", edgeError);
+        }
+
         setIsSubmitted(true);
 
         // Save inquiry to localStorage for local client session persistence
@@ -359,12 +385,18 @@ export default function Steps() {
                             placeholder="e.g. you@yourbrand.com"
                             className="w-full font-sans text-xs p-3.5 rounded-none bg-brand-bg border-2 border-brand-text/15 focus:border-brand-text outline-none transition-all placeholder:text-brand-text/30"
                           />
-                          {validationError && (
-                            <p className="text-red-500 font-mono text-[10px] font-bold uppercase mt-1">
-                              {validationError}
-                            </p>
-                          )}
                         </div>
+
+                        {validationError && (
+                          <div className="p-3.5 bg-red-500/10 border-2 border-red-500 text-red-600 dark:text-red-400 flex items-start gap-2.5 rounded-none">
+                            <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                            <div className="space-y-1">
+                              <p className="font-mono text-[11px] font-bold leading-tight">
+                                {validationError}
+                              </p>
+                            </div>
+                          </div>
+                        )}
 
                         {/* Back and Submit Actions Grid */}
                         <div className="flex items-center gap-3 pt-2">
