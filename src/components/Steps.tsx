@@ -88,13 +88,22 @@ export default function Steps() {
     setValidationError("");
 
     try {
+      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
+
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+
+      if (supabaseAnonKey) {
+        headers["Authorization"] = `Bearer ${supabaseAnonKey}`;
+        headers["apikey"] = supabaseAnonKey;
+      }
+
       const response = await fetch(
         "https://kjwbwfizbbfzfvvlltea.supabase.co/functions/v1/send-email",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers,
           body: JSON.stringify(formData),
         }
       );
@@ -109,13 +118,18 @@ export default function Steps() {
       console.log("Edge Function result:", response.status, result);
 
       if (!response.ok) {
-        const errorMsg =
+        let errorMsg =
           typeof result.error === "string"
             ? result.error
             : result.error?.message ||
               result.message ||
               (result.stage ? `Submission failed at stage '${result.stage}': ${JSON.stringify(result.error || {})}` : null) ||
               `Submission failed (status ${response.status})`;
+
+        if (errorMsg.includes("Missing authorization header")) {
+          errorMsg = "Missing Authorization Header: Please set VITE_SUPABASE_ANON_KEY in your environment variables or disable JWT verification on your Supabase Edge Function.";
+        }
+
         throw new Error(errorMsg);
       }
 
