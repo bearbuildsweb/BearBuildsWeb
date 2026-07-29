@@ -502,7 +502,6 @@ export default function Steps() {
                       <span className="bg-brand-accent/10 border border-brand-accent/20 px-2 py-0.5 text-brand-accent font-bold break-all inline-block select-all my-1">
                         {formData.email}
                       </span>{" "}
-                      within the next 72 hours.
                     </motion.p>
 
                     {/* Status Card */}
