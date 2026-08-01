@@ -47,7 +47,6 @@ export default function Steps() {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleDone = (e?: React.MouseEvent) => {
     if (e) e.preventDefault();
@@ -61,7 +60,6 @@ export default function Steps() {
     });
     setStep(1);
     setIsSubmitted(false);
-    setIsSubmitting(false);
     setValidationError("");
   };
 
@@ -102,91 +100,33 @@ export default function Steps() {
     setStep(1);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.slowingDown) {
       setValidationError("Please select the biggest bottleneck in your day.");
       return;
     }
-    // Final validations
     if (!formData.email.trim()) {
+      setValidationError("Please enter your email address.");
       return;
     }
 
-    setIsSubmitting(true);
     setValidationError("");
 
+    // Save inquiry to localStorage for local client session persistence
     try {
-      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
-
-      const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-      };
-
-      if (supabaseAnonKey) {
-        headers["Authorization"] = `Bearer ${supabaseAnonKey}`;
-        headers["apikey"] = supabaseAnonKey;
-      }
-
-      const response = await fetch(
-        "https://kjwbwfizbbfzfvvlltea.supabase.co/functions/v1/send-email",
-        {
-          method: "POST",
-          headers,
-          body: JSON.stringify(formData),
-        }
-      );
-
-      let result: any = {};
-      try {
-        result = await response.json();
-      } catch (e) {
-        console.error("Failed to parse response JSON:", e);
-      }
-
-      console.log("Edge Function result:", response.status, result);
-
-      if (!response.ok) {
-        let errorMsg =
-          typeof result.error === "string"
-            ? result.error
-            : result.error?.message ||
-              result.message ||
-              (result.stage ? `Submission failed at stage '${result.stage}': ${JSON.stringify(result.error || {})}` : null) ||
-              `Submission failed (status ${response.status})`;
-
-        if (errorMsg.includes("Missing authorization header")) {
-          errorMsg = "Missing Authorization Header: Please set VITE_SUPABASE_ANON_KEY in your environment variables or disable JWT verification on your Supabase Edge Function.";
-        }
-
-        throw new Error(errorMsg);
-      }
-
-      setIsSubmitted(true);
-
-      // Save inquiry to localStorage for local client session persistence
-      try {
-        const previousInquiries = JSON.parse(localStorage.getItem("bear_inquiries") || "[]");
-        previousInquiries.push({
-          ...formData,
-          date: new Date().toISOString()
-        });
-        localStorage.setItem("bear_inquiries", JSON.stringify(previousInquiries));
-      } catch (e) {
-        console.error("Failed saving inquiry to localStorage:", e);
-      }
-    } catch (err: any) {
-      console.error("[Steps] Exception handling submission:", err);
-      const isFetchError = err.name === "TypeError" || err.message === "Failed to fetch";
-      setValidationError(
-        isFetchError
-          ? "Failed to connect to Edge Function (CORS preflight or network error). Please ensure CORS headers are configured in your Supabase Edge Function."
-          : err.message || "An unexpected error occurred. Please try again."
-      );
-    } finally {
-      setIsSubmitting(false);
+      const previousInquiries = JSON.parse(localStorage.getItem("bear_inquiries") || "[]");
+      previousInquiries.push({
+        ...formData,
+        date: new Date().toISOString()
+      });
+      localStorage.setItem("bear_inquiries", JSON.stringify(previousInquiries));
+    } catch (e) {
+      console.error("Failed saving inquiry to localStorage:", e);
     }
+
+    setIsSubmitted(true);
   };
 
   const bookingOptions = [
@@ -455,17 +395,9 @@ export default function Steps() {
                           
                           <button
                             type="submit"
-                            disabled={isSubmitting}
-                            className="flex-1 py-4 px-6 bg-brand-text hover:bg-brand-accent text-brand-bg hover:text-white font-sans font-black text-xs uppercase tracking-widest rounded-none border-2 border-brand-text transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:pointer-events-none shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] active:translate-y-0.5 active:shadow-[2px_2px_0px_0px_rgba(26,26,26,1)]"
+                            className="flex-1 py-4 px-6 bg-brand-text hover:bg-brand-accent text-brand-bg hover:text-white font-sans font-black text-xs uppercase tracking-widest rounded-none border-2 border-brand-text transition-all flex items-center justify-center gap-2 cursor-pointer shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] active:translate-y-0.5 active:shadow-[2px_2px_0px_0px_rgba(26,26,26,1)]"
                           >
-                            {isSubmitting ? (
-                              <>
-                                <div className="w-4 h-4 border-2 border-brand-bg/30 border-t-brand-bg rounded-full animate-spin" />
-                                <span>Sending Request...</span>
-                              </>
-                            ) : (
-                              <span>Build My Prototype</span>
-                            )}
+                            <span>Build My Prototype</span>
                           </button>
                         </div>
 
