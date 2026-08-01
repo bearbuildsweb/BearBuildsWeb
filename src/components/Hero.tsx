@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "motion/react";
 import { ArrowDown, Mail, CheckCircle2, BadgeCheck, Linkedin, ArrowUpRight } from "lucide-react";
 // @ts-ignore
-import bearPortrait from "../assets/images/heroIMG.png";
+import bearPortrait from "../assets/images/hero_image.png";
 
 interface HeroProps {
   onContactClick: () => void;
