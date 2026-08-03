@@ -122,7 +122,9 @@ export default function Steps() {
       // 1. Persist questionnaire response into Supabase Database
       const dbResult = await submitQuestionnaire(formData);
       if (!dbResult.success) {
-        console.warn("[Steps] Supabase DB submission notice:", dbResult.error);
+        console.error("[Steps] Supabase DB submission error:", dbResult.error);
+        setValidationError(dbResult.error || "Failed to save questionnaire response to database.");
+        return;
       }
 
       // 2. Send literal string notification emails (client: "request received", admin: "you have a new request")
