@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { CheckCircle2, ArrowRight, ArrowLeft, AlertCircle } from "lucide-react";
 import { ContactFormData } from "../types";
-import { submitQuestionnaire, sendNotificationEmails } from "../lib/supabase";
+import { submitQuestionnaire } from "../lib/supabase";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -119,18 +119,15 @@ export default function Steps() {
     setValidationError("");
 
     try {
-      // 1. Persist questionnaire response into Supabase Database
-      const dbResult = await submitQuestionnaire(formData);
-      if (!dbResult.success) {
-        console.error("[Steps] Supabase DB submission error:", dbResult.error);
-        setValidationError(dbResult.error || "Failed to save questionnaire response to database.");
+      // Send form payload directly to Edge Function
+      const result = await submitQuestionnaire(formData);
+      if (!result.success) {
+        console.error("[Steps] Submission error:", result.error);
+        setValidationError(result.error || "Failed to submit request.");
         return;
       }
 
-      // 2. Send literal string notification emails (client: "request received", admin: "you have a new request")
-      await sendNotificationEmails(formData);
-
-      // 3. Save inquiry to localStorage for local client session persistence
+      // Save inquiry to localStorage for local client session persistence
       try {
         const previousInquiries = JSON.parse(localStorage.getItem("bear_inquiries") || "[]");
         previousInquiries.push({
