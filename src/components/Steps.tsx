@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { CheckCircle2, ArrowRight, ArrowLeft, AlertCircle } from "lucide-react";
 import { ContactFormData } from "../types";
+import { submitQuestionnaire, sendNotificationEmails } from "../lib/supabase";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -47,6 +48,7 @@ export default function Steps() {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleDone = (e?: React.MouseEvent) => {
     if (e) e.preventDefault();
@@ -60,6 +62,7 @@ export default function Steps() {
     });
     setStep(1);
     setIsSubmitted(false);
+    setIsSubmitting(false);
     setValidationError("");
   };
 
@@ -100,7 +103,7 @@ export default function Steps() {
     setStep(1);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.slowingDown) {
@@ -112,21 +115,38 @@ export default function Steps() {
       return;
     }
 
+    setIsSubmitting(true);
     setValidationError("");
 
-    // Save inquiry to localStorage for local client session persistence
     try {
-      const previousInquiries = JSON.parse(localStorage.getItem("bear_inquiries") || "[]");
-      previousInquiries.push({
-        ...formData,
-        date: new Date().toISOString()
-      });
-      localStorage.setItem("bear_inquiries", JSON.stringify(previousInquiries));
-    } catch (e) {
-      console.error("Failed saving inquiry to localStorage:", e);
-    }
+      // 1. Persist questionnaire response into Supabase Database
+      const dbResult = await submitQuestionnaire(formData);
+      if (!dbResult.success) {
+        console.warn("[Steps] Supabase DB submission notice:", dbResult.error);
+      }
 
-    setIsSubmitted(true);
+      // 2. Send literal string notification emails (client: "request received", admin: "you have a new request")
+      await sendNotificationEmails(formData);
+
+      // 3. Save inquiry to localStorage for local client session persistence
+      try {
+        const previousInquiries = JSON.parse(localStorage.getItem("bear_inquiries") || "[]");
+        previousInquiries.push({
+          ...formData,
+          date: new Date().toISOString()
+        });
+        localStorage.setItem("bear_inquiries", JSON.stringify(previousInquiries));
+      } catch (e) {
+        console.error("Failed saving inquiry to localStorage:", e);
+      }
+
+      setIsSubmitted(true);
+    } catch (err: any) {
+      console.error("[Steps] Error during submission:", err);
+      setValidationError(err.message || "An error occurred during submission. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const bookingOptions = [
@@ -395,9 +415,17 @@ export default function Steps() {
                           
                           <button
                             type="submit"
-                            className="flex-1 py-4 px-6 bg-brand-text hover:bg-brand-accent text-brand-bg hover:text-white font-sans font-black text-xs uppercase tracking-widest rounded-none border-2 border-brand-text transition-all flex items-center justify-center gap-2 cursor-pointer shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] active:translate-y-0.5 active:shadow-[2px_2px_0px_0px_rgba(26,26,26,1)]"
+                            disabled={isSubmitting}
+                            className="flex-1 py-4 px-6 bg-brand-text hover:bg-brand-accent text-brand-bg hover:text-white font-sans font-black text-xs uppercase tracking-widest rounded-none border-2 border-brand-text transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:pointer-events-none shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] active:translate-y-0.5 active:shadow-[2px_2px_0px_0px_rgba(26,26,26,1)]"
                           >
-                            <span>Build My Prototype</span>
+                            {isSubmitting ? (
+                              <>
+                                <div className="w-4 h-4 border-2 border-brand-bg/30 border-t-brand-bg rounded-full animate-spin" />
+                                <span>Sending Request...</span>
+                              </>
+                            ) : (
+                              <span>Build My Prototype</span>
+                            )}
                           </button>
                         </div>
 
