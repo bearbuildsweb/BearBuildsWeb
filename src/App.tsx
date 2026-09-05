@@ -1,13 +1,15 @@
-import React from "react";
-import Header from "./components/Header";
+import React, { useState } from "react";
 import Hero from "./components/Hero";
 import WhoIHelp from "./components/WhoIHelp";
-import Steps from "./components/Steps";
 import Footer from "./components/Footer";
+import WhatsAppWidget from "./components/WhatsAppWidget";
+import CollapsibleMenu from "./components/CollapsibleMenu";
 
 export default function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const handleScrollToContact = () => {
-    const contactElement = document.getElementById("process");
+    const contactElement = document.getElementById("contact");
     if (contactElement) {
       contactElement.scrollIntoView({ behavior: "smooth" });
     }
@@ -22,25 +24,30 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-brand-bg text-brand-text selection:bg-brand-accent selection:text-white overflow-x-hidden font-sans">
-      {/* Navigation Header */}
-      <Header onContactClick={handleScrollToContact} />
-
       <main>
         {/* Hero Section */}
         <Hero 
           onContactClick={handleScrollToContact} 
           onWhoIHelpClick={handleScrollToWhoIHelp}
+          onToggleMenu={() => setIsMenuOpen((prev) => !prev)}
         />
 
         {/* Who Do I Help Section */}
         <WhoIHelp />
-
-        {/* Work with Bear in 2 Easy Steps Section */}
-        <Steps />
       </main>
 
       {/* Minimalist Dark Footer */}
       <Footer />
+
+      {/* Collapsible Slide-in Menu */}
+      <CollapsibleMenu
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+        onWhoIHelpClick={handleScrollToWhoIHelp}
+      />
+
+      {/* Editorial WhatsApp Contact Widget (hidden when collapsible menu is open) */}
+      <WhatsAppWidget isHidden={isMenuOpen} />
     </div>
   );
 }

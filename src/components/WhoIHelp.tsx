@@ -1,17 +1,67 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Plus, Minus } from "lucide-react";
+import { ServiceItem } from "../types";
+
+const services: ServiceItem[] = [
+  {
+    id: "photographer",
+    focus: "FOCUS 01",
+    title: "Photographer",
+    quote: "“Spend less time quoting. More time shooting.”",
+    approach:
+      "Showcase your photography beautifully, give clients the confidence to choose you, and make booking effortless.",
+    theme: "light",
+  },
+  {
+    id: "makeup",
+    focus: "FOCUS 02",
+    title: "Makeup Artist",
+    quote: "“Less time replying. More time applying.”",
+    approach:
+      "A bespoke home for your artistry — designed to showcase your signature work and guide the right clients naturally towards booking.",
+    theme: "dark",
+  },
+  {
+    id: "landscaper",
+    focus: "FOCUS 03",
+    title: "Landscaper",
+    quote: "“Less time answering enquiries. More time transforming gardens.”",
+    approach:
+      "A booking platform that explains your services, captures job requests, and schedules site visits—so you're working outside instead of replying inside.",
+    theme: "light",
+  },
+];
 
 export default function WhoIHelp() {
-  const [creativeExpanded, setCreativeExpanded] = useState<string | null>(null);
-  const [serviceExpanded, setServiceExpanded] = useState<string | null>(null);
+  // Desktop viewports (min-width: 1024px) start with cards expanded by default
+  const [expandedIds, setExpandedIds] = useState<string[]>(() => {
+    if (typeof window !== "undefined") {
+      return window.matchMedia("(min-width: 1024px)").matches
+        ? services.map((s) => s.id)
+        : [];
+    }
+    return [];
+  });
 
-  const toggleCreative = (id: string) => {
-    setCreativeExpanded((prev) => (prev === id ? null : id));
-  };
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    const handleViewportChange = (e: MediaQueryListEvent) => {
+      if (e.matches) {
+        setExpandedIds(services.map((s) => s.id));
+      } else {
+        setExpandedIds([]);
+      }
+    };
+
+    mql.addEventListener("change", handleViewportChange);
+    return () => mql.removeEventListener("change", handleViewportChange);
+  }, []);
 
   const toggleService = (id: string) => {
-    setServiceExpanded((prev) => (prev === id ? null : id));
+    setExpandedIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
   };
 
   return (
@@ -25,319 +75,125 @@ export default function WhoIHelp() {
           </span>
         </div>
 
-        {/* Two Parent Category Panels Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          
-          {/* CATEGORY 01: CREATIVE PROFESSIONALS */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="bg-brand-bg border-2 border-brand-text p-6 md:p-8 shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] space-y-6 relative"
-          >
-            {/* Category Header */}
-            <div className="space-y-2 border-b border-brand-text/15 pb-6">
-              <span className="font-mono text-[10px] tracking-widest text-brand-accent font-black uppercase block">
-                CATEGORY 01
-              </span>
-              <h3 className="font-display font-black text-2xl md:text-3xl text-brand-text uppercase tracking-tight">
-                CREATIVE PROFESSIONALS
-              </h3>
-              <p className="font-serif font-bold italic text-base text-brand-text/80 leading-snug">
-                Build a booking experience that lets your work sell itself.
-              </p>
-            </div>
+        {/* Ungrouped Services Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+          {services.map((service, index) => {
+            const isExpanded = expandedIds.includes(service.id);
+            const isDark = service.theme === "dark";
 
-            {/* Profession Cards Stack */}
-            <div className="space-y-4">
-              
-              {/* Photographer */}
-              {(() => {
-                const isExpanded = creativeExpanded === "photographer";
-                return (
-                  <div
-                    onClick={() => toggleCreative("photographer")}
-                    className="bg-white text-brand-text border-2 border-brand-text p-5 md:p-6 shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] transition-all duration-300 cursor-pointer select-none group"
-                  >
-                    <div className="flex justify-between items-start gap-4 mb-3">
-                      <div>
-                        <span className="font-mono text-[9px] tracking-widest text-brand-accent font-black uppercase block mb-1">
-                          FOCUS 01
-                        </span>
-                        <h4 className="font-display font-black text-xl md:text-2xl text-brand-text uppercase tracking-tight">
-                          Photographer
-                        </h4>
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0">
-                        <span className="font-mono text-[9px] text-brand-text/40 uppercase tracking-wider group-hover:text-brand-accent transition-colors duration-200 hidden sm:inline">
-                          {isExpanded ? "[ Collapse ]" : "[ Expand ]"}
-                        </span>
-                        <div className="w-7 h-7 border border-brand-text/20 flex items-center justify-center bg-brand-bg/50 group-hover:bg-brand-accent group-hover:text-white transition-all duration-300">
-                          <motion.div
-                            animate={{ rotate: isExpanded ? 180 : 0 }}
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                          >
-                            {isExpanded ? (
-                              <Minus className="w-3.5 h-3.5" />
-                            ) : (
-                              <Plus className="w-3.5 h-3.5" />
-                            )}
-                          </motion.div>
-                        </div>
-                      </div>
-                    </div>
+            return (
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: index * 0.1 }}
+                onClick={() => toggleService(service.id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    toggleService(service.id);
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                aria-expanded={isExpanded}
+                aria-label={`${service.title}: ${isExpanded ? "Collapse" : "Expand"} details`}
+                className={`h-full border-2 border-brand-text p-6 md:p-7 transition-all duration-300 cursor-pointer select-none group flex flex-col justify-between focus:outline-none focus:ring-2 focus:ring-brand-accent ${
+                  isDark
+                    ? "bg-[#1A1A1A] text-white shadow-[6px_6px_0px_0px_#A67C52] hover:shadow-[8px_8px_0px_0px_#A67C52]"
+                    : "bg-white text-brand-text shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)]"
+                }`}
+              >
+                <div className="flex flex-col flex-1">
+                  {/* Top utility row: Focus tag on left, Collapse action on right */}
+                  <div className="flex justify-between items-center h-7 mb-3">
+                    <span className="font-mono text-[9px] tracking-widest text-brand-accent font-black uppercase">
+                      {service.focus}
+                    </span>
 
-                    <p className="font-serif font-bold italic text-sm md:text-base text-brand-text leading-tight">
-                      "Spend less time quoting. More time shooting."
-                    </p>
-
-                    <motion.div
-                      initial={false}
-                      animate={{
-                        height: isExpanded ? "auto" : 0,
-                        opacity: isExpanded ? 1 : 0,
-                        marginTop: isExpanded ? 16 : 0,
-                      }}
-                      transition={{ duration: 0.35, ease: [0.25, 1, 0.5, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <div className="border-t border-brand-text/10 pt-4">
-                        <span className="font-black font-mono text-[9px] text-brand-accent uppercase tracking-widest block mb-1.5">
-                          BEAR'S APPROACH
-                        </span>
-                        <p className="text-brand-text/95 text-xs font-semibold leading-relaxed bg-brand-accent/5 p-3.5 border-l-2 border-brand-accent font-sans">
-                          A booking platform that answers common questions, showcases your portfolio, and lets clients book while you're out creating your next masterpiece.
-                        </p>
-                      </div>
-                    </motion.div>
-                  </div>
-                );
-              })()}
-
-              {/* Makeup Artist */}
-              {(() => {
-                const isExpanded = creativeExpanded === "makeup";
-                return (
-                  <div
-                    onClick={() => toggleCreative("makeup")}
-                    className="bg-[#1A1A1A] text-white border-2 border-brand-text p-5 md:p-6 shadow-[4px_4px_0px_0px_#A67C52] hover:shadow-[6px_6px_0px_0px_#A67C52] transition-all duration-300 cursor-pointer select-none group"
-                  >
-                    <div className="flex justify-between items-start gap-4 mb-3">
-                      <div>
-                        <span className="font-mono text-[9px] tracking-widest text-brand-accent font-black uppercase block mb-1">
-                          FOCUS 02
-                        </span>
-                        <h4 className="font-display font-black text-xl md:text-2xl text-white uppercase tracking-tight">
-                          Makeup Artist
-                        </h4>
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0">
-                        <span className="font-mono text-[9px] text-white/40 uppercase tracking-wider group-hover:text-brand-accent transition-colors duration-200 hidden sm:inline">
-                          {isExpanded ? "[ Collapse ]" : "[ Expand ]"}
-                        </span>
-                        <div className="w-7 h-7 border border-white/10 flex items-center justify-center bg-white/5 group-hover:bg-brand-accent group-hover:text-white transition-all duration-300">
-                          <motion.div
-                            animate={{ rotate: isExpanded ? 180 : 0 }}
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                          >
-                            {isExpanded ? (
-                              <Minus className="w-3.5 h-3.5" />
-                            ) : (
-                              <Plus className="w-3.5 h-3.5" />
-                            )}
-                          </motion.div>
-                        </div>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`font-mono text-[9px] uppercase tracking-wider transition-colors duration-200 hidden sm:inline ${
+                          isDark
+                            ? "text-white/40 group-hover:text-brand-accent"
+                            : "text-brand-text/40 group-hover:text-brand-accent"
+                        }`}
+                      >
+                        {isExpanded ? "[ Collapse ]" : "[ Expand ]"}
+                      </span>
+                      <div
+                        className={`w-7 h-7 border flex items-center justify-center transition-all duration-300 ${
+                          isDark
+                            ? "border-white/10 bg-white/5 group-hover:bg-brand-accent group-hover:text-white"
+                            : "border-brand-text/20 bg-brand-bg/50 group-hover:bg-brand-accent group-hover:text-white"
+                        }`}
+                      >
+                        <motion.div
+                          animate={{ rotate: isExpanded ? 180 : 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                        >
+                          {isExpanded ? (
+                            <Minus className="w-3.5 h-3.5" />
+                          ) : (
+                            <Plus className="w-3.5 h-3.5" />
+                          )}
+                        </motion.div>
                       </div>
                     </div>
-
-                    <p className="font-serif font-bold italic text-sm md:text-base text-white leading-tight">
-                      "Less time replying. More time applying."
-                    </p>
-
-                    <motion.div
-                      initial={false}
-                      animate={{
-                        height: isExpanded ? "auto" : 0,
-                        opacity: isExpanded ? 1 : 0,
-                        marginTop: isExpanded ? 16 : 0,
-                      }}
-                      transition={{ duration: 0.35, ease: [0.25, 1, 0.5, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <div className="border-t border-white/10 pt-4">
-                        <span className="font-black font-mono text-[9px] text-brand-accent uppercase tracking-widest block mb-1.5">
-                          BEAR'S APPROACH
-                        </span>
-                        <p className="text-white/95 text-xs font-semibold leading-relaxed bg-white/5 p-3.5 border-l-2 border-brand-accent font-sans">
-                          One place for your services, pricing, availability, and bookings—so your clients get answers, and you get your time back.
-                        </p>
-                      </div>
-                    </motion.div>
                   </div>
-                );
-              })()}
 
-            </div>
-          </motion.div>
-
-          {/* CATEGORY 02: SERVICE PROFESSIONALS */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="bg-brand-bg border-2 border-brand-text p-6 md:p-8 shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] space-y-6 relative"
-          >
-            {/* Category Header */}
-            <div className="space-y-2 border-b border-brand-text/15 pb-6">
-              <span className="font-mono text-[10px] tracking-widest text-brand-accent font-black uppercase block">
-                CATEGORY 02
-              </span>
-              <h3 className="font-display font-black text-2xl md:text-3xl text-brand-text uppercase tracking-tight">
-                SERVICE PROFESSIONALS
-              </h3>
-              <p className="font-serif font-bold italic text-base text-brand-text/80 leading-snug">
-                Built for businesses where every missed call is a missed booking.
-              </p>
-            </div>
-
-            {/* Profession Cards Stack */}
-            <div className="space-y-4">
-              
-              {/* Mobile Physiotherapist */}
-              {(() => {
-                const isExpanded = serviceExpanded === "physio";
-                return (
-                  <div
-                    onClick={() => toggleService("physio")}
-                    className="bg-white text-brand-text border-2 border-brand-text p-5 md:p-6 shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] hover:shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] transition-all duration-300 cursor-pointer select-none group"
-                  >
-                    <div className="flex justify-between items-start gap-4 mb-3">
-                      <div>
-                        <span className="font-mono text-[9px] tracking-widest text-brand-accent font-black uppercase block mb-1">
-                          FOCUS 03
-                        </span>
-                        <h4 className="font-display font-black text-xl md:text-2xl text-brand-text uppercase tracking-tight">
-                          Mobile Physiotherapist
-                        </h4>
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0">
-                        <span className="font-mono text-[9px] text-brand-text/40 uppercase tracking-wider group-hover:text-brand-accent transition-colors duration-200 hidden sm:inline">
-                          {isExpanded ? "[ Collapse ]" : "[ Expand ]"}
-                        </span>
-                        <div className="w-7 h-7 border border-brand-text/20 flex items-center justify-center bg-brand-bg/50 group-hover:bg-brand-accent group-hover:text-white transition-all duration-300">
-                          <motion.div
-                            animate={{ rotate: isExpanded ? 180 : 0 }}
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                          >
-                            {isExpanded ? (
-                              <Minus className="w-3.5 h-3.5" />
-                            ) : (
-                              <Plus className="w-3.5 h-3.5" />
-                            )}
-                          </motion.div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <p className="font-serif font-bold italic text-sm md:text-base text-brand-text leading-tight">
-                      "The only thing you should be chasing is recovery—not missed calls."
-                    </p>
-
-                    <motion.div
-                      initial={false}
-                      animate={{
-                        height: isExpanded ? "auto" : 0,
-                        opacity: isExpanded ? 1 : 0,
-                        marginTop: isExpanded ? 16 : 0,
-                      }}
-                      transition={{ duration: 0.35, ease: [0.25, 1, 0.5, 1] }}
-                      className="overflow-hidden"
+                  {/* Title row */}
+                  <div className="min-h-[2.5rem] md:min-h-[3rem] flex items-center mb-3">
+                    <h3
+                      className={`font-display font-black text-2xl md:text-3xl uppercase tracking-[0.06em] leading-tight ${
+                        isDark ? "text-white" : "text-brand-text"
+                      }`}
                     >
-                      <div className="border-t border-brand-text/10 pt-4">
-                        <span className="font-black font-mono text-[9px] text-brand-accent uppercase tracking-widest block mb-1.5">
-                          BEAR'S APPROACH
-                        </span>
-                        <p className="text-brand-text/95 text-xs font-semibold leading-relaxed bg-brand-accent/5 p-3.5 border-l-2 border-brand-accent font-sans">
-                          A booking platform that keeps appointments moving while you focus on the patient in front of you.
-                        </p>
-                      </div>
-                    </motion.div>
+                      {service.title}
+                    </h3>
                   </div>
-                );
-              })()}
 
-              {/* Landscaper */}
-              {(() => {
-                const isExpanded = serviceExpanded === "landscaper";
-                return (
-                  <div
-                    onClick={() => toggleService("landscaper")}
-                    className="bg-[#1A1A1A] text-white border-2 border-brand-text p-5 md:p-6 shadow-[4px_4px_0px_0px_#A67C52] hover:shadow-[6px_6px_0px_0px_#A67C52] transition-all duration-300 cursor-pointer select-none group"
-                  >
-                    <div className="flex justify-between items-start gap-4 mb-3">
-                      <div>
-                        <span className="font-mono text-[9px] tracking-widest text-brand-accent font-black uppercase block mb-1">
-                          FOCUS 04
-                        </span>
-                        <h4 className="font-display font-black text-xl md:text-2xl text-white uppercase tracking-tight">
-                          Landscaper
-                        </h4>
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0">
-                        <span className="font-mono text-[9px] text-white/40 uppercase tracking-wider group-hover:text-brand-accent transition-colors duration-200 hidden sm:inline">
-                          {isExpanded ? "[ Collapse ]" : "[ Expand ]"}
-                        </span>
-                        <div className="w-7 h-7 border border-white/10 flex items-center justify-center bg-white/5 group-hover:bg-brand-accent group-hover:text-white transition-all duration-300">
-                          <motion.div
-                            animate={{ rotate: isExpanded ? 180 : 0 }}
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                          >
-                            {isExpanded ? (
-                              <Minus className="w-3.5 h-3.5" />
-                            ) : (
-                              <Plus className="w-3.5 h-3.5" />
-                            )}
-                          </motion.div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <p className="font-serif font-bold italic text-sm md:text-base text-white leading-tight">
-                      "Less time answering enquiries. More time transforming gardens."
-                    </p>
-
-                    <motion.div
-                      initial={false}
-                      animate={{
-                        height: isExpanded ? "auto" : 0,
-                        opacity: isExpanded ? 1 : 0,
-                        marginTop: isExpanded ? 16 : 0,
-                      }}
-                      transition={{ duration: 0.35, ease: [0.25, 1, 0.5, 1] }}
-                      className="overflow-hidden"
+                  <div className="min-h-[4rem] sm:min-h-[4.5rem] flex items-start">
+                    <p
+                      className={`font-serif italic font-medium text-lg md:text-xl leading-[1.45] tracking-[0.015em] antialiased ${
+                        isDark ? "text-[#FAF8F5]/90" : "text-[#1A1A1A]/85"
+                      }`}
                     >
-                      <div className="border-t border-white/10 pt-4">
-                        <span className="font-black font-mono text-[9px] text-brand-accent uppercase tracking-widest block mb-1.5">
-                          BEAR'S APPROACH
-                        </span>
-                        <p className="text-white/95 text-xs font-semibold leading-relaxed bg-white/5 p-3.5 border-l-2 border-brand-accent font-sans">
-                          A booking platform that explains your services, captures job requests, and schedules site visits—so you're working outside instead of replying inside.
-                        </p>
-                      </div>
-                    </motion.div>
+                      {service.quote}
+                    </p>
                   </div>
-                );
-              })()}
+                </div>
 
-            </div>
-          </motion.div>
-
+                <motion.div
+                  initial={false}
+                  animate={{
+                    height: isExpanded ? "auto" : 0,
+                    opacity: isExpanded ? 1 : 0,
+                    marginTop: isExpanded ? 24 : 0,
+                  }}
+                  transition={{ duration: 0.35, ease: [0.25, 1, 0.5, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className={`border-t pt-4 flex flex-col ${isDark ? "border-white/10" : "border-brand-text/10"}`}>
+                    <span className="font-black font-mono text-[9px] text-brand-accent uppercase tracking-widest block mb-2">
+                      BEAR'S APPROACH
+                    </span>
+                    <p
+                      className={`text-xs font-semibold leading-relaxed p-4 border-l-2 border-brand-accent font-sans min-h-[5.5rem] flex items-center ${
+                        isDark ? "text-white/95 bg-white/5" : "text-brand-text/95 bg-brand-accent/5"
+                      }`}
+                    >
+                      {service.approach}
+                    </p>
+                  </div>
+                </motion.div>
+              </motion.div>
+            );
+          })}
         </div>
 
       </div>
     </section>
   );
 }
-
