@@ -19,21 +19,15 @@ export default function Footer() {
     <footer id="contact" className="bg-[#1A1A1A] text-[#FDFCF9] py-16 px-6 lg:px-16 border-t-2 border-brand-text relative overflow-hidden scroll-mt-10">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center lg:items-start gap-10">
         
-        {/* Left Side: Logo & Navigation */}
-        <div className="space-y-6 w-full lg:w-72 text-center lg:text-left">
-          <div className="space-y-2">
-            <h3 className="text-xl md:text-2xl uppercase tracking-normal whitespace-nowrap">
-              <span className="font-sans font-black text-white">BEAR </span>
-              <span className="text-[#CDB89E] italic font-serif font-bold lowercase">builds web</span>
-            </h3>
-            <p className="font-sans text-xs text-white/50 max-w-xs leading-relaxed mx-auto lg:mx-0">
-              Less admin. More appointments.
-            </p>
-          </div>
-
-          <nav className="flex justify-center lg:justify-end font-sans text-[10px] uppercase font-black tracking-widest text-white/60">
-            <a href="#who-i-help" className="hover:text-brand-accent transition-colors">Clients I Work With</a>
-          </nav>
+        {/* Left Side: Logo & Description */}
+        <div className="space-y-2 w-full lg:w-72 text-center lg:text-left">
+          <p className="font-sans text-xs text-white/50 max-w-xs leading-relaxed mx-auto lg:mx-0">
+            Show it. Get booked.
+          </p>
+          <h3 className="text-xl md:text-2xl uppercase tracking-normal whitespace-nowrap">
+            <span className="font-sans font-black text-white">BEAR </span>
+            <span className="text-[#CDB89E] italic font-serif font-bold lowercase">builds web</span>
+          </h3>
         </div>
 
         {/* Right Side: Email Action */}
@@ -108,7 +102,7 @@ export default function Footer() {
         </button>
 
         <span className="text-[10px] sm:text-[11px] font-mono text-white/40 uppercase tracking-widest text-center">
-          © 2026 Bear Builds Web. Less admin. More appointments.
+          © 2026 Bear Builds Web. Show it. Get booked.
         </span>
       </div>
     </footer>

@@ -101,45 +101,19 @@ export default function Hero({ onContactClick, onWhoIHelpClick, onToggleMenu }: 
               transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
               className="w-full text-center select-none relative z-10"
             >
-              {/* Micro Tag Floating Above "LESS ADMIN" */}
+              {/* Micro Tag Floating Above "SHOW IT" */}
               <div className="inline-flex items-center gap-2 mb-2 sm:mb-3 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 font-mono text-[9px] sm:text-[10px] tracking-widest uppercase">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#E5D7BE] animate-pulse" />
                 <span>FOR SOLO PROFESSIONALS</span>
               </div>
 
               <h1 className="font-display font-black text-[20vw] sm:text-[16vw] lg:text-[160px] xl:text-[190px] text-white/95 leading-[0.80] tracking-tight uppercase drop-shadow-[0_8px_20px_rgba(0,0,0,0.18)]">
-                LESS ADMIN
+                SHOW IT
               </h1>
             </motion.div>
 
-            {/* Overlapping Central Composition: Image Capsule breaking the grid + Dramatic "More Bookings." */}
+            {/* Overlapping Central Composition: Image Capsule breaking the grid + Dramatic "Get Booked." */}
             <div className="relative w-full flex flex-col lg:flex-row items-center justify-center -mt-10 sm:-mt-20 md:-mt-24 lg:-mt-28 z-20">
-              
-              {/* Left Editorial Metadata Bracket (Desktop only - adds art direction depth) */}
-              <motion.div 
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-                className="hidden xl:flex flex-col items-start gap-3 absolute left-0 top-1/2 -translate-y-1/2 text-left z-15 select-none"
-              >
-                <div className="border-l-2 border-white/40 pl-3.5 py-1">
-                  <p className="font-mono text-[10px] text-white/90 font-bold uppercase tracking-wider">
-                    SPEC. 01 // ARCHITECTURE
-                  </p>
-                  <p className="font-mono text-[9px] text-white/60 uppercase tracking-widest mt-0.5">
-                    Zero-Friction Scheduling
-                  </p>
-                </div>
-                <div className="border-l-2 border-[#1A1A1A]/30 pl-3.5 py-1">
-                  <p className="font-mono text-[10px] text-[#1A1A1A] font-bold uppercase tracking-wider">
-                    DEV & DESIGN
-                  </p>
-                  <p className="font-mono text-[9px] text-[#1A1A1A]/60 uppercase tracking-widest mt-0.5">
-                    Tailored For Solo Practices
-                  </p>
-                </div>
-              </motion.div>
-
               {/* Central Art-Directed Photograph Capsule (Offset & Breaking the Grid) */}
               <motion.div 
                 initial={{ opacity: 0, scale: 0.88, y: 35, rotate: -3 }}
@@ -176,7 +150,7 @@ export default function Hero({ onContactClick, onWhoIHelpClick, onToggleMenu }: 
 
               </motion.div>
 
-              {/* Forefront Accent Word: "More Bookings." with Dynamic Stagger & Heavy Presence (Cleanly visible on desktop) */}
+              {/* Forefront Accent Word: "Get Booked." with Dynamic Stagger & Heavy Presence (Cleanly visible on desktop) */}
               <motion.div 
                 initial={{ opacity: 0, x: 30, y: 15 }}
                 animate={{ opacity: 1, x: 0, y: 0 }}
@@ -185,7 +159,7 @@ export default function Hero({ onContactClick, onWhoIHelpClick, onToggleMenu }: 
               >
                 <div className="relative inline-block">
                   <span className="font-serif italic font-semibold text-5xl sm:text-7xl md:text-8xl lg:text-[100px] xl:text-[120px] text-[#1A1A1A] leading-[0.9] tracking-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.08)] block whitespace-nowrap">
-                    More Bookings.
+                    Get Booked.
                   </span>
                   
                   {/* Blank Accent Dot beside the Serif Period */}

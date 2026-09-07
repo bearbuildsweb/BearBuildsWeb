@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion } from "motion/react";
 import { Plus, Minus } from "lucide-react";
 import { ServiceItem } from "../types";
@@ -34,34 +34,11 @@ const services: ServiceItem[] = [
 ];
 
 export default function WhoIHelp() {
-  // Desktop viewports (min-width: 1024px) start with cards expanded by default
-  const [expandedIds, setExpandedIds] = useState<string[]>(() => {
-    if (typeof window !== "undefined") {
-      return window.matchMedia("(min-width: 1024px)").matches
-        ? services.map((s) => s.id)
-        : [];
-    }
-    return [];
-  });
-
-  useEffect(() => {
-    const mql = window.matchMedia("(min-width: 1024px)");
-    const handleViewportChange = (e: MediaQueryListEvent) => {
-      if (e.matches) {
-        setExpandedIds(services.map((s) => s.id));
-      } else {
-        setExpandedIds([]);
-      }
-    };
-
-    mql.addEventListener("change", handleViewportChange);
-    return () => mql.removeEventListener("change", handleViewportChange);
-  }, []);
+  // Collapsed by default across all viewports; only the clicked card expands
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const toggleService = (id: string) => {
-    setExpandedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
+    setExpandedId((prev) => (prev === id ? null : id));
   };
 
   return (
@@ -75,10 +52,10 @@ export default function WhoIHelp() {
           </span>
         </div>
 
-        {/* Ungrouped Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+        {/* Ungrouped Services Grid with independent card heights */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
           {services.map((service, index) => {
-            const isExpanded = expandedIds.includes(service.id);
+            const isExpanded = expandedId === service.id;
             const isDark = service.theme === "dark";
 
             return (
@@ -99,7 +76,7 @@ export default function WhoIHelp() {
                 role="button"
                 aria-expanded={isExpanded}
                 aria-label={`${service.title}: ${isExpanded ? "Collapse" : "Expand"} details`}
-                className={`h-full border-2 border-brand-text p-6 md:p-7 transition-all duration-300 cursor-pointer select-none group flex flex-col justify-between focus:outline-none focus:ring-2 focus:ring-brand-accent ${
+                className={`h-auto self-start border-2 border-brand-text p-6 md:p-7 transition-all duration-300 cursor-pointer select-none group flex flex-col justify-between focus:outline-none focus:ring-2 focus:ring-brand-accent ${
                   isDark
                     ? "bg-[#1A1A1A] text-white shadow-[6px_6px_0px_0px_#A67C52] hover:shadow-[8px_8px_0px_0px_#A67C52]"
                     : "bg-white text-brand-text shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)]"

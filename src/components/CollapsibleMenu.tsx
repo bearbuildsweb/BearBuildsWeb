@@ -6,12 +6,14 @@ interface CollapsibleMenuProps {
   isOpen: boolean;
   onClose: () => void;
   onWhoIHelpClick: () => void;
+  onRequestSiteClick?: () => void;
 }
 
 export default function CollapsibleMenu({
   isOpen,
   onClose,
   onWhoIHelpClick,
+  onRequestSiteClick,
 }: CollapsibleMenuProps) {
   // Prevent scrolling and close on Escape key when open
   useEffect(() => {
@@ -85,8 +87,8 @@ export default function CollapsibleMenu({
               </button>
             </div>
 
-            {/* Menu Items: Exactly 1 item "Clients I work with" */}
-            <div className="flex-1 py-10 flex flex-col justify-center">
+            {/* Menu Items */}
+            <div className="flex-1 py-10 flex flex-col justify-center gap-1">
               <span className="font-mono text-[9px] font-black uppercase tracking-[0.2em] text-[#8C6D46] block mb-3">
                 EXPLORE
               </span>
@@ -100,6 +102,21 @@ export default function CollapsibleMenu({
                 <span>Clients I work with</span>
                 <ArrowRight className="w-6 h-6 text-[#8C6D46] transform group-hover:translate-x-1.5 transition-transform" />
               </button>
+
+              {onRequestSiteClick && (
+                <button
+                  onClick={() => {
+                    onClose();
+                    onRequestSiteClick();
+                  }}
+                  className="w-full text-left font-display font-black text-3xl sm:text-4xl text-[#1A1A1A] hover:text-[#8C6D46] uppercase tracking-tight py-4 border-b-2 border-[#1A1A1A]/10 hover:border-[#8C6D46] flex items-center justify-between group cursor-pointer transition-all duration-200"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <span>Request Your Site</span>
+                  </span>
+                  <ArrowRight className="w-6 h-6 text-[#8C6D46] transform group-hover:translate-x-1.5 transition-transform" />
+                </button>
+              )}
             </div>
 
             {/* Footer of the Collapsible Menu: CTA for WhatsApp */}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Hero from "./components/Hero";
 import WhoIHelp from "./components/WhoIHelp";
+import RequestSite from "./components/RequestSite";
 import Footer from "./components/Footer";
 import WhatsAppWidget from "./components/WhatsAppWidget";
 import CollapsibleMenu from "./components/CollapsibleMenu";
@@ -22,6 +23,13 @@ export default function App() {
     }
   };
 
+  const handleScrollToRequestSite = () => {
+    const requestElement = document.getElementById("request-site");
+    if (requestElement) {
+      requestElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-brand-bg text-brand-text selection:bg-brand-accent selection:text-white overflow-x-hidden font-sans">
       <main>
@@ -34,6 +42,9 @@ export default function App() {
 
         {/* Who Do I Help Section */}
         <WhoIHelp />
+
+        {/* Request Your Site Section */}
+        <RequestSite />
       </main>
 
       {/* Minimalist Dark Footer */}
@@ -44,6 +55,7 @@ export default function App() {
         isOpen={isMenuOpen}
         onClose={() => setIsMenuOpen(false)}
         onWhoIHelpClick={handleScrollToWhoIHelp}
+        onRequestSiteClick={handleScrollToRequestSite}
       />
 
       {/* Editorial WhatsApp Contact Widget (hidden when collapsible menu is open) */}
@@ -51,3 +63,4 @@ export default function App() {
     </div>
   );
 }
+
