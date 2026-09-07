@@ -76,7 +76,7 @@ export default function WhoIHelp() {
                 role="button"
                 aria-expanded={isExpanded}
                 aria-label={`${service.title}: ${isExpanded ? "Collapse" : "Expand"} details`}
-                className={`h-auto self-start border-2 border-brand-text p-6 md:p-7 transition-all duration-300 cursor-pointer select-none group flex flex-col justify-between focus:outline-none focus:ring-2 focus:ring-brand-accent ${
+                className={`h-auto self-start border-2 border-brand-text p-6 md:p-7 min-h-[260px] sm:min-h-[275px] lg:min-h-[295px] transition-all duration-300 cursor-pointer select-none group flex flex-col justify-between focus:outline-none focus:ring-2 focus:ring-brand-accent ${
                   isDark
                     ? "bg-[#1A1A1A] text-white shadow-[6px_6px_0px_0px_#A67C52] hover:shadow-[8px_8px_0px_0px_#A67C52]"
                     : "bg-white text-brand-text shadow-[6px_6px_0px_0px_rgba(26,26,26,1)] hover:shadow-[8px_8px_0px_0px_rgba(26,26,26,1)]"
@@ -131,7 +131,8 @@ export default function WhoIHelp() {
                     </h3>
                   </div>
 
-                  <div className="min-h-[4rem] sm:min-h-[4.5rem] flex items-start">
+                  {/* Quote row with standardized height across all cards */}
+                  <div className="min-h-[5.5rem] sm:min-h-[6rem] lg:min-h-[6.5rem] flex-1 flex items-start">
                     <p
                       className={`font-serif italic font-medium text-lg md:text-xl leading-[1.45] tracking-[0.015em] antialiased ${
                         isDark ? "text-[#FAF8F5]/90" : "text-[#1A1A1A]/85"
