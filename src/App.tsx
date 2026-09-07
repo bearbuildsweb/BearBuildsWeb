@@ -35,6 +35,7 @@ export default function App() {
       <main>
         {/* Hero Section */}
         <Hero 
+          onRequestSiteClick={handleScrollToRequestSite}
           onContactClick={handleScrollToContact} 
           onWhoIHelpClick={handleScrollToWhoIHelp}
           onToggleMenu={() => setIsMenuOpen((prev) => !prev)}
