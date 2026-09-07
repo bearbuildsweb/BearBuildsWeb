@@ -5,12 +5,13 @@ import { ArrowDown, MessageCircle, Menu } from "lucide-react";
 import bearPortrait from "../assets/images/hero-UPDATE.png";
 
 interface HeroProps {
+  onRequestSiteClick?: () => void;
   onContactClick: () => void;
   onWhoIHelpClick: () => void;
   onToggleMenu: () => void;
 }
 
-export default function Hero({ onContactClick, onWhoIHelpClick, onToggleMenu }: HeroProps) {
+export default function Hero({ onRequestSiteClick, onContactClick, onWhoIHelpClick, onToggleMenu }: HeroProps) {
   return (
     <section className="relative w-full px-2 sm:px-4 lg:px-8 pt-2 pb-16 lg:pb-24 overflow-hidden bg-[#F4F1EA]">
       
@@ -209,15 +210,27 @@ export default function Hero({ onContactClick, onWhoIHelpClick, onToggleMenu }: 
 
                 {/* Exact Required Narrative Copy with Tactile Typography */}
                 <p className="font-sans text-base sm:text-lg lg:text-[19px] font-normal text-[#1A1A1A]/90 leading-relaxed">
-                  Hi...<span className="text-[#1A1A1A]/50">I’m Moemedi</span> “<span className="font-serif italic font-bold text-[#8C6D46] text-[1.12em] tracking-tight">Bear</span>”...i make bookings visual.
+                  Hi...<span className="text-[#1A1A1A]/50">I’m Moemedi</span> “<span className="font-serif italic font-bold text-[#8C6D46] text-[1.12em] tracking-tight">Bear</span>”...i design visual bookings.
                 </p>
 
-                {/* Subtle Scrapbook Footnote / Technical Spec Stamp */}
-                <div className="pt-3 mt-3 border-t border-dashed border-[#1A1A1A]/8 flex items-center justify-end font-mono text-[8px] sm:text-[9px] text-[#1A1A1A]/45 uppercase tracking-wider select-none">
-                  <span className="flex items-center gap-1.5">
-                    <span className="text-[#8C6D46] font-bold">#</span>
-                    <span>THOUGHTFUL DESIGN</span>
-                  </span>
+                {/* Subtle Pill CTA to Request Site Form */}
+                <div className="pt-3 mt-3 border-t border-dashed border-[#1A1A1A]/10 flex items-center justify-end">
+                  <a
+                    href="#request-site"
+                    id="hero-request-design-cta"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (onRequestSiteClick) {
+                        onRequestSiteClick();
+                      } else {
+                        document.getElementById("request-site")?.scrollIntoView({ behavior: "smooth" });
+                      }
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1A1A1A]/5 hover:bg-[#8C6D46] text-[#1A1A1A]/75 hover:text-white border border-[#1A1A1A]/15 hover:border-[#8C6D46] font-mono text-[9px] sm:text-[10px] font-bold tracking-wider uppercase transition-all duration-200 cursor-pointer group/pill"
+                  >
+                    <span>REQUEST YOUR DESIGN</span>
+                    <span className="text-xs transition-transform group-hover/pill:translate-x-0.5">→</span>
+                  </a>
                 </div>
               </div>
             </div>
