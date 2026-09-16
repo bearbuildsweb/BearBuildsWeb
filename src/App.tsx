@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Hero from "./components/Hero";
 import WhoIHelp from "./components/WhoIHelp";
 import RequestSite from "./components/RequestSite";
@@ -8,6 +8,24 @@ import CollapsibleMenu from "./components/CollapsibleMenu";
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isInRequestSiteSection, setIsInRequestSiteSection] = useState(false);
+
+  useEffect(() => {
+    const el = document.getElementById("request-site");
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInRequestSiteSection(entry.isIntersecting);
+      },
+      {
+        threshold: 0.05,
+      }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const handleScrollToContact = () => {
     const contactElement = document.getElementById("contact");
@@ -35,6 +53,7 @@ export default function App() {
       <main>
         {/* Hero Section */}
         <Hero 
+          onRequestSiteClick={handleScrollToRequestSite}
           onContactClick={handleScrollToContact} 
           onWhoIHelpClick={handleScrollToWhoIHelp}
           onToggleMenu={() => setIsMenuOpen((prev) => !prev)}
@@ -58,8 +77,8 @@ export default function App() {
         onRequestSiteClick={handleScrollToRequestSite}
       />
 
-      {/* Editorial WhatsApp Contact Widget (hidden when collapsible menu is open) */}
-      <WhatsAppWidget isHidden={isMenuOpen} />
+      {/* Editorial WhatsApp Contact Widget (hidden when in Request Site section or menu is open) */}
+      <WhatsAppWidget isHidden={isMenuOpen || isInRequestSiteSection} />
     </div>
   );
 }

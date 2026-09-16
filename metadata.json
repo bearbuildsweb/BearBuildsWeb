@@ -1,6 +1,6 @@
 {
   "name": "Bear Builds Web",
-  "description": "A minimal, modern portfolio website for Bear, helping emerging businesses and brands establish an effective online presence.",
+  "description": "showcase your work and make bookings effortless",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

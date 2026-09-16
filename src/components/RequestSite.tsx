@@ -6,7 +6,6 @@ import {
   Check,
   ChevronDown,
   MessageCircle,
-  Video,
   ArrowRight,
   RotateCcw,
   Sparkles,
@@ -23,7 +22,7 @@ function getAvailableDates() {
   let pointer = new Date(curr);
   pointer.setDate(pointer.getDate() + 1);
 
-  while (added < 7) {
+  while (added < 4) {
     const day = pointer.getDay();
     // Skip Saturday (6) and Sunday (0)
     if (day !== 0 && day !== 6) {
@@ -48,8 +47,6 @@ export default function RequestSite() {
   // Form State
   const [formData, setFormData] = useState<SiteRequestFormData>({
     name: "",
-    businessName: "",
-    whatsappNumber: "",
     profession: "",
   });
 
@@ -63,7 +60,6 @@ export default function RequestSite() {
   const availableDates = getAvailableDates();
   const [selectedDate, setSelectedDate] = useState<string>(availableDates[0]?.dateStr || "");
   const [selectedTime, setSelectedTime] = useState<string>(AVAILABLE_TIMES[0]);
-  const [callMedium, setCallMedium] = useState<"whatsapp" | "meet">("whatsapp");
 
   // Handle Form Submit
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -72,12 +68,6 @@ export default function RequestSite() {
 
     if (!formData.name.trim()) {
       newErrors.name = "Please enter your name";
-    }
-    if (!formData.businessName.trim()) {
-      newErrors.businessName = "Please enter your business name";
-    }
-    if (!formData.whatsappNumber.trim()) {
-      newErrors.whatsappNumber = "Please enter your WhatsApp number";
     }
     if (!formData.profession) {
       newErrors.profession = "Please select your profession";
@@ -99,9 +89,7 @@ export default function RequestSite() {
 
   // Pre-filled WhatsApp message for confirmation
   const whatsappUrl = `https://wa.me/27680246914?text=${encodeURIComponent(
-    `Hi Bear! I just requested a site on Bear Builds Web for ${formData.businessName} (${formData.profession}). I scheduled our discovery call for ${selectedDate} at ${selectedTime} via ${
-      callMedium === "whatsapp" ? "WhatsApp Voice" : "Google Meet"
-    }. Looking forward to connecting!`
+    `Hi Bear! I'm ${formData.name}${formData.profession ? ` (${formData.profession})` : ""}. I just requested a site on Bear Builds Web and scheduled our discovery call for ${selectedDate} at ${selectedTime} via WhatsApp. Looking forward to connecting!`
   )}`;
 
   return (
@@ -143,12 +131,12 @@ export default function RequestSite() {
         <div className="text-center sm:text-left space-y-4 max-w-3xl">
           <div className="inline-flex items-center gap-2 font-mono text-[9px] sm:text-[10px] font-black text-brand-accent tracking-[0.22em] uppercase">
             <span className="w-1.5 h-1.5 rounded-full bg-brand-accent animate-pulse" />
-            <span>LET'S BUILD</span>
+            <span>START HERE</span>
             <span className="text-[#1A1A1A]/30">//</span>
           </div>
 
           <h2 className="font-display font-black text-5xl sm:text-7xl lg:text-8xl tracking-tight text-brand-text uppercase leading-[0.9]">
-            REQUEST YOUR SITE
+            LET’S TALK ABOUT YOUR SITE.
           </h2>
         </div>
 
@@ -178,7 +166,7 @@ export default function RequestSite() {
               <div className="flex items-center gap-2.5">
                 <div className="w-2.5 h-2.5 rounded-xs bg-[#8C6D46]" />
                 <span className="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#1A1A1A]">
-                  PULL UP A CHAIR // LET'S BUILD.
+                  PULL UP A CHAIR // START HERE.
                 </span>
               </div>
 
@@ -224,112 +212,34 @@ export default function RequestSite() {
                   </div>
 
                   {/* 2-Column Grid for Name & Business Name */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    
-                    {/* FIELD 01: NAME */}
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <label 
-                          htmlFor="client-name"
-                          className="font-mono text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-[#1A1A1A] flex items-center gap-1.5"
-                        >
-                          <span className="text-[#8C6D46] font-bold">[01]</span>
-                          <span>NAME</span>
-                        </label>
-                        {errors.name && (
-                          <span className="font-mono text-[9px] text-red-600 font-bold uppercase tracking-wider">
-                            {errors.name}
-                          </span>
-                        )}
-                      </div>
-                      <div className="relative">
-                        <input
-                          id="client-name"
-                          type="text"
-                          value={formData.name}
-                          onChange={(e) => {
-                            setFormData((prev) => ({ ...prev, name: e.target.value }));
-                            if (errors.name) setErrors((prev) => ({ ...prev, name: undefined }));
-                          }}
-                          placeholder="Your name"
-                          className={`w-full bg-white text-[#1A1A1A] font-sans text-sm sm:text-base px-4 py-3.5 rounded-lg border-2 transition-colors duration-200 outline-none placeholder:text-[#1A1A1A]/35 ${
-                            errors.name
-                              ? "border-red-500 focus:border-red-600"
-                              : "border-[#1A1A1A]/20 hover:border-[#1A1A1A]/45 focus:border-[#1A1A1A] focus:bg-[#FFFDFB]"
-                          }`}
-                        />
-                      </div>
-                    </div>
-
-                    {/* FIELD 02: BUSINESS NAME */}
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <label 
-                          htmlFor="business-name"
-                          className="font-mono text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-[#1A1A1A] flex items-center gap-1.5"
-                        >
-                          <span className="text-[#8C6D46] font-bold">[02]</span>
-                          <span>BUSINESS NAME</span>
-                        </label>
-                        {errors.businessName && (
-                          <span className="font-mono text-[9px] text-red-600 font-bold uppercase tracking-wider">
-                            {errors.businessName}
-                          </span>
-                        )}
-                      </div>
-                      <div className="relative">
-                        <input
-                          id="business-name"
-                          type="text"
-                          value={formData.businessName}
-                          onChange={(e) => {
-                            setFormData((prev) => ({ ...prev, businessName: e.target.value }));
-                            if (errors.businessName) setErrors((prev) => ({ ...prev, businessName: undefined }));
-                          }}
-                          placeholder="Your business"
-                          className={`w-full bg-white text-[#1A1A1A] font-sans text-sm sm:text-base px-4 py-3.5 rounded-lg border-2 transition-colors duration-200 outline-none placeholder:text-[#1A1A1A]/35 ${
-                            errors.businessName
-                              ? "border-red-500 focus:border-red-600"
-                              : "border-[#1A1A1A]/20 hover:border-[#1A1A1A]/45 focus:border-[#1A1A1A] focus:bg-[#FFFDFB]"
-                          }`}
-                        />
-                      </div>
-                    </div>
-
-                  </div>
-
-                  {/* FIELD 03: WHATSAPP NUMBER */}
+                  {/* FIELD 01: NAME */}
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <label 
-                        htmlFor="whatsapp-number"
+                        htmlFor="client-name"
                         className="font-mono text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-[#1A1A1A] flex items-center gap-1.5"
                       >
-                        <span className="text-[#8C6D46] font-bold">[03]</span>
-                        <span>WHATSAPP NUMBER</span>
+                        <span className="text-[#8C6D46] font-bold">[01]</span>
+                        <span>NAME</span>
                       </label>
-                      {errors.whatsappNumber ? (
+                      {errors.name && (
                         <span className="font-mono text-[9px] text-red-600 font-bold uppercase tracking-wider">
-                          {errors.whatsappNumber}
-                        </span>
-                      ) : (
-                        <span className="font-mono text-[8.5px] text-[#1A1A1A]/50 uppercase tracking-widest">
-                          DIRECT ACCESS TO BEAR
+                          {errors.name}
                         </span>
                       )}
                     </div>
                     <div className="relative">
                       <input
-                        id="whatsapp-number"
-                        type="tel"
-                        value={formData.whatsappNumber}
+                        id="client-name"
+                        type="text"
+                        value={formData.name}
                         onChange={(e) => {
-                          setFormData((prev) => ({ ...prev, whatsappNumber: e.target.value }));
-                          if (errors.whatsappNumber) setErrors((prev) => ({ ...prev, whatsappNumber: undefined }));
+                          setFormData((prev) => ({ ...prev, name: e.target.value }));
+                          if (errors.name) setErrors((prev) => ({ ...prev, name: undefined }));
                         }}
-                        placeholder="+27 ..."
+                        placeholder="Your name"
                         className={`w-full bg-white text-[#1A1A1A] font-sans text-sm sm:text-base px-4 py-3.5 rounded-lg border-2 transition-colors duration-200 outline-none placeholder:text-[#1A1A1A]/35 ${
-                          errors.whatsappNumber
+                          errors.name
                             ? "border-red-500 focus:border-red-600"
                             : "border-[#1A1A1A]/20 hover:border-[#1A1A1A]/45 focus:border-[#1A1A1A] focus:bg-[#FFFDFB]"
                         }`}
@@ -337,14 +247,14 @@ export default function RequestSite() {
                     </div>
                   </div>
 
-                  {/* FIELD 04: PROFESSION (Dropdown / Select + Tactile Quick-Selection) */}
+                  {/* FIELD 02: PROFESSION (Dropdown / Select + Tactile Quick-Selection) */}
                   <div className="space-y-2.5">
                     <div className="flex items-center justify-between">
                       <label 
                         htmlFor="profession-select"
                         className="font-mono text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-[#1A1A1A] flex items-center gap-1.5"
                       >
-                        <span className="text-[#8C6D46] font-bold">[04]</span>
+                        <span className="text-[#8C6D46] font-bold">[02]</span>
                         <span>PROFESSION</span>
                       </label>
                       {errors.profession && (
@@ -438,10 +348,10 @@ export default function RequestSite() {
                       </div>
                       <div>
                         <p className="font-bold text-[#1A1A1A] uppercase text-xs sm:text-sm">
-                          {formData.name} <span className="font-normal text-[#1A1A1A]/50">({formData.businessName})</span>
+                          {formData.name}
                         </p>
                         <p className="text-[10px] text-[#8C6D46] font-semibold uppercase tracking-wider">
-                          {formData.profession} • {formData.whatsappNumber}
+                          {formData.profession}
                         </p>
                       </div>
                     </div>
@@ -464,7 +374,7 @@ export default function RequestSite() {
                         STEP 02 // LET'S TALK
                       </span>
                       <h3 className="font-display font-black text-3xl sm:text-4xl text-[#1A1A1A] uppercase tracking-tight">
-                        PICK A TIME
+                        BOOK THE CONVERSATION
                       </h3>
                     </div>
                   </div>
@@ -481,8 +391,8 @@ export default function RequestSite() {
                       </span>
                     </div>
 
-                    {/* Horizontal Date Picker Cards */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
+                    {/* Horizontal Date Picker Cards (4 Days) */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
                       {availableDates.map((item) => {
                         const isSelected = selectedDate === item.dateStr;
                         return (
@@ -545,58 +455,6 @@ export default function RequestSite() {
                     </div>
                   </div>
 
-                  {/* Call Medium Selection */}
-                  <div className="space-y-2 pt-2">
-                    <span className="font-mono text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-[#1A1A1A] block">
-                      CALL MEDIUM
-                    </span>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <button
-                        type="button"
-                        onClick={() => setCallMedium("whatsapp")}
-                        className={`p-3.5 rounded-lg border-2 flex items-center gap-3 transition-all cursor-pointer text-left ${
-                          callMedium === "whatsapp"
-                            ? "bg-white border-[#1A1A1A] shadow-[3px_3px_0px_0px_#25D366]"
-                            : "bg-white/60 hover:bg-white border-[#1A1A1A]/15 text-[#1A1A1A]/70"
-                        }`}
-                      >
-                        <div className="w-8 h-8 rounded-full bg-[#25D366]/15 text-[#25D366] flex items-center justify-center shrink-0">
-                          <MessageCircle className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <p className="font-mono text-xs font-bold text-[#1A1A1A] uppercase tracking-wider">
-                            WhatsApp Audio Call
-                          </p>
-                          <p className="font-sans text-[11px] text-[#1A1A1A]/60">
-                            Bear will call your number directly
-                          </p>
-                        </div>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setCallMedium("meet")}
-                        className={`p-3.5 rounded-lg border-2 flex items-center gap-3 transition-all cursor-pointer text-left ${
-                          callMedium === "meet"
-                            ? "bg-white border-[#1A1A1A] shadow-[3px_3px_0px_0px_#8C6D46]"
-                            : "bg-white/60 hover:bg-white border-[#1A1A1A]/15 text-[#1A1A1A]/70"
-                        }`}
-                      >
-                        <div className="w-8 h-8 rounded-full bg-[#8C6D46]/15 text-[#8C6D46] flex items-center justify-center shrink-0">
-                          <Video className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <p className="font-mono text-xs font-bold text-[#1A1A1A] uppercase tracking-wider">
-                            Google Meet Link
-                          </p>
-                          <p className="font-sans text-[11px] text-[#1A1A1A]/60">
-                            Sent to your WhatsApp before call
-                          </p>
-                        </div>
-                      </button>
-                    </div>
-                  </div>
-
                   {/* Confirmation Action */}
                   <div className="pt-6 border-t border-dashed border-[#1A1A1A]/15 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
                     <div className="text-left font-mono text-[10px] text-[#1A1A1A]/60 uppercase tracking-widest">
@@ -604,14 +462,18 @@ export default function RequestSite() {
                       <span className="font-bold text-[#1A1A1A]">{selectedTime}</span>
                     </div>
 
-                    <button
-                      type="button"
+                    <a
+                      id="step2-confirm-whatsapp-btn"
+                      href={whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       onClick={handleConfirmCall}
-                      className="group relative inline-flex items-center justify-center gap-3 bg-[#1A1A1A] hover:bg-[#8C6D46] text-white font-mono text-xs sm:text-sm font-black uppercase tracking-widest px-8 py-4.5 rounded-lg border-2 border-[#1A1A1A] shadow-[4px_4px_0px_0px_#8C6D46] hover:shadow-[4px_4px_0px_0px_#1A1A1A] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_0px_#1A1A1A] transition-all duration-200 cursor-pointer select-none"
+                      className="group relative inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#1EBE5D] text-white font-mono text-xs sm:text-sm font-black uppercase tracking-widest px-8 py-4.5 rounded-lg border-2 border-[#1A1A1A] shadow-[4px_4px_0px_0px_#1A1A1A] hover:shadow-[6px_6px_0px_0px_#1A1A1A] active:translate-x-0.5 active:translate-y-0.5 transition-all duration-200 cursor-pointer select-none"
                     >
-                      <span>CONFIRM APPOINTMENT</span>
+                      <MessageCircle className="w-4 h-4" />
+                      <span>CONFIRM ON WHATSAPP</span>
                       <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                    </button>
+                    </a>
                   </div>
                 </motion.div>
               )}
@@ -627,31 +489,18 @@ export default function RequestSite() {
                 >
                   {/* Stamped Banner */}
                   <div className="bg-[#FAF5EC] border-2 border-[#8C6D46] rounded-xl p-6 sm:p-8 relative overflow-hidden shadow-xs">
-                    <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4">
-                      <div className="space-y-2">
-                        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#8C6D46]/10 text-[#8C6D46] font-mono text-[9px] uppercase font-black tracking-widest">
-                          <Check className="w-3 h-3" />
-                          <span>REQUEST TICKET</span>
-                        </div>
-                        <h3 className="font-display font-black text-3xl sm:text-5xl text-[#1A1A1A] uppercase tracking-tight">
-                          YOU'RE ON THE SCHEDULE.
-                        </h3>
-                        <div className="font-mono text-xs sm:text-sm text-[#1A1A1A]/65 max-w-xl space-y-2 pt-1 leading-relaxed">
-                          <p>
-                            Hi <span className="font-bold text-[#1A1A1A]">{formData.name}</span> — request received.
-                          </p>
-                          <p>
-                            Now let's make{" "}
-                            <span className="font-bold text-[#1A1A1A]">{formData.businessName}</span> a digital presence that makes the right clients stop, take notice— and book easily
-                          </p>
-                        </div>
+                    <div className="space-y-2">
+                      <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#8C6D46]/10 text-[#8C6D46] font-mono text-[9px] uppercase font-black tracking-widest">
+                        <Check className="w-3 h-3" />
+                        <span>REQUEST TICKET</span>
                       </div>
-
-                      {/* Workshop Stamp Badge */}
-                      <div className="w-20 h-20 rounded-full border-2 border-dashed border-[#8C6D46] text-[#8C6D46] flex flex-col items-center justify-center font-mono text-[8.5px] uppercase font-black tracking-widest rotate-6 shrink-0 bg-white/70">
-                        <span>CONFIRMED</span>
-                        <span className="text-xs">🐻</span>
-                        <span>BOOKED</span>
+                      <h3 className="font-display font-black text-3xl sm:text-5xl text-[#1A1A1A] uppercase tracking-tight">
+                        YOU'RE ON THE SCHEDULE.
+                      </h3>
+                      <div className="font-mono text-xs sm:text-sm text-[#1A1A1A]/65 max-w-xl space-y-1 pt-1 leading-relaxed">
+                        <p>
+                          Hi <span className="font-bold text-[#1A1A1A]">{formData.name}</span> — request received.
+                        </p>
                       </div>
                     </div>
 
@@ -668,43 +517,30 @@ export default function RequestSite() {
                       <div className="bg-white/80 p-3.5 rounded-lg border border-[#8C6D46]/20">
                         <span className="text-[9px] text-[#1A1A1A]/50 uppercase tracking-widest block">MEDIUM</span>
                         <span className="text-sm font-black text-[#1A1A1A] uppercase">
-                          {callMedium === "whatsapp" ? "WhatsApp Voice" : "Google Meet"}
+                          WhatsApp
                         </span>
                       </div>
                     </div>
                   </div>
 
                   {/* Actions for User */}
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-2">
-                    {/* Send direct notice on WhatsApp */}
-                    <a
-                      href={whatsappUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#1EBE5D] text-white font-mono text-xs sm:text-sm font-black uppercase tracking-widest px-7 py-4 rounded-lg border-2 border-[#1A1A1A] shadow-[4px_4px_0px_0px_#1A1A1A] hover:shadow-[6px_6px_0px_0px_#1A1A1A] active:translate-x-0.5 active:translate-y-0.5 transition-all duration-200 cursor-pointer"
+                  <div className="flex items-center justify-end pt-2">
+                    {/* Done / Reset Form and redirect to top */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFormData({ name: "", profession: "" });
+                        setSelectedDate(availableDates[0]?.dateStr || "");
+                        setSelectedTime(AVAILABLE_TIMES[0]);
+                        setErrors({});
+                        setCurrentStep(1);
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }}
+                      className="inline-flex items-center gap-2 font-mono text-xs font-bold text-[#1A1A1A] hover:text-[#8C6D46] px-6 py-3.5 rounded-lg border border-[#1A1A1A]/20 bg-white hover:border-[#1A1A1A]/50 transition-colors uppercase tracking-wider cursor-pointer shadow-xs"
                     >
-                      <MessageCircle className="w-4 h-4" />
-                      <span>CONFIRM IN WHATSAPP →</span>
-                    </a>
-
-                    <div className="flex items-center justify-center sm:justify-end">
-                      {/* Done / Reset Form */}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setFormData({ name: "", businessName: "", whatsappNumber: "", profession: "" });
-                          setSelectedDate(availableDates[0]?.dateStr || "");
-                          setSelectedTime(AVAILABLE_TIMES[0]);
-                          setCallMedium("whatsapp");
-                          setErrors({});
-                          setCurrentStep(1);
-                        }}
-                        className="inline-flex items-center gap-2 font-mono text-xs font-bold text-[#1A1A1A] hover:text-[#8C6D46] px-5 py-3.5 rounded-lg border border-[#1A1A1A]/20 bg-white hover:border-[#1A1A1A]/50 transition-colors uppercase tracking-wider cursor-pointer"
-                      >
-                        <Check className="w-4 h-4 text-emerald-600" />
-                        <span>DONE</span>
-                      </button>
-                    </div>
+                      <Check className="w-4 h-4 text-emerald-600" />
+                      <span>DONE</span>
+                    </button>
                   </div>
                 </motion.div>
               )}
@@ -715,7 +551,7 @@ export default function RequestSite() {
 
           {/* Bottom Card Specifications Footnote */}
           <div className="mt-4 px-3 flex items-center justify-between font-mono text-[8.5px] sm:text-[9.5px] text-[#1A1A1A]/45 uppercase tracking-wider select-none">
-            <span>SMART DESIGNS // CRAFTED IN SOUTH AFRICA</span>
+            <span>CRAFTED IN SOUTH AFRICA</span>
             <span className="hidden sm:inline"></span>
             <span>BEAR BUILDS WEB</span>
           </div>

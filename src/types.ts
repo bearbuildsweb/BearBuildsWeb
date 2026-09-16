@@ -11,9 +11,9 @@ export type ProfessionType = "Photographer" | "Makeup Artist" | "Landscaper" | "
 
 export interface SiteRequestFormData {
   name: string;
-  businessName: string;
-  whatsappNumber: string;
   profession: ProfessionType;
+  businessName?: string;
+  whatsappNumber?: string;
 }
 
 export interface ScheduledCallData {
