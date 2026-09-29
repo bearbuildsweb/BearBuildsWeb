@@ -6,9 +6,9 @@
   --font-display: "Bebas Neue", "Space Grotesk", sans-serif;
   --font-serif: "Playfair Display", "Fraunces", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  --color-brand-bg: #FDFCF9;
-  --color-brand-text: #1A1A1A;
-  --color-brand-accent: #8C6D46;
+  --color-brand-bg: #F4F5F7;
+  --color-brand-text: #18181B;
+  --color-brand-accent: #52525B;
 }
 
 /* Custom smooth scrolling and scrollbar styles */
@@ -19,7 +19,15 @@ html {
 }
 
 ::selection {
-  background-color: var(--color-brand-accent);
-  color: white;
+  background-color: #18181B;
+  color: #FFFFFF;
+}
+
+/* Ensure browser autofill stays true to brand theme */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: #18181B !important;
 }
 

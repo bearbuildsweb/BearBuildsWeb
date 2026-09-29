@@ -35,7 +35,7 @@ export default function CollapsibleMenu({
   }, [isOpen, onClose]);
 
   const whatsappUrl = `https://wa.me/27680246914?text=${encodeURIComponent(
-    "Hi Bear, I’d like to chat about a website."
+    "Hi Bear, I’d like to talk about building a DIGITAL FRONT DOOR for my work."
   )}`;
 
   return (
@@ -49,7 +49,7 @@ export default function CollapsibleMenu({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
             onClick={onClose}
-            className="absolute inset-0 bg-[#1A1A1A]/60 backdrop-blur-xs cursor-pointer"
+            className="absolute inset-0 bg-[#18181B]/60 backdrop-blur-xs cursor-pointer"
             aria-label="Close menu backdrop"
           />
 
@@ -59,27 +59,27 @@ export default function CollapsibleMenu({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 280 }}
-            className="absolute top-0 right-0 bottom-0 w-full max-w-xs sm:max-w-sm bg-[#FAF8F5] text-[#1A1A1A] border-l-2 border-[#1A1A1A] shadow-[-8px_0px_25px_rgba(26,26,26,0.18)] flex flex-col justify-between p-6 sm:p-8 select-none"
+            className="absolute top-0 right-0 bottom-0 w-full max-w-xs sm:max-w-sm bg-[#F8F9FA] text-[#18181B] border-l-2 border-[#18181B] shadow-[-8px_0px_25px_rgba(24,24,27,0.18)] flex flex-col justify-between p-6 sm:p-8 select-none"
           >
             {/* Header: Logo & Close Button */}
-            <div className="flex items-center justify-between pb-6 border-b border-[#1A1A1A]/15">
+            <div className="flex items-center justify-between pb-6 border-b border-[#18181B]/15">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-[#1A1A1A] flex items-center justify-center text-white text-sm shadow-xs">
+                <div className="w-8 h-8 rounded-full bg-[#18181B] flex items-center justify-center text-white text-sm shadow-xs">
                   <span>🐻</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-mono text-[11px] font-black tracking-widest text-[#1A1A1A] uppercase leading-tight">
+                  <span className="font-mono text-[11px] font-black tracking-widest text-[#18181B] uppercase leading-tight">
                     BEAR BUILDS WEB
                   </span>
-                  <span className="font-mono text-[8.5px] font-bold tracking-wider text-[#8C6D46] uppercase">
-                    NAVIGATION
+                  <span className="font-mono text-[8.5px] font-bold tracking-wider text-[#52525B] uppercase">
+                    //
                   </span>
                 </div>
               </div>
 
               <button
                 onClick={onClose}
-                className="w-9 h-9 rounded-full border border-[#1A1A1A]/20 bg-white hover:bg-[#1A1A1A] hover:text-white text-[#1A1A1A] transition-all duration-200 flex items-center justify-center cursor-pointer shadow-xs"
+                className="w-9 h-9 rounded-full border border-[#18181B]/20 bg-white hover:bg-[#18181B] hover:text-white text-[#18181B] transition-all duration-200 flex items-center justify-center cursor-pointer shadow-xs"
                 title="Close menu"
                 aria-label="Close menu"
               >
@@ -89,7 +89,7 @@ export default function CollapsibleMenu({
 
             {/* Menu Items */}
             <div className="flex-1 py-10 flex flex-col justify-center gap-1">
-              <span className="font-mono text-[9px] font-black uppercase tracking-[0.2em] text-[#8C6D46] block mb-3">
+              <span className="font-mono text-[9px] font-black uppercase tracking-[0.2em] text-[#52525B] block mb-3">
                 EXPLORE
               </span>
               <button
@@ -97,10 +97,10 @@ export default function CollapsibleMenu({
                   onClose();
                   onWhoIHelpClick();
                 }}
-                className="w-full text-left font-display font-black text-3xl sm:text-4xl text-[#1A1A1A] hover:text-[#8C6D46] uppercase tracking-tight py-4 border-b-2 border-[#1A1A1A]/10 hover:border-[#8C6D46] flex items-center justify-between group cursor-pointer transition-all duration-200"
+                className="w-full text-left font-display font-black text-3xl sm:text-4xl text-[#18181B] hover:text-[#52525B] uppercase tracking-tight py-4 border-b-2 border-[#18181B]/10 hover:border-[#52525B] flex items-center justify-between group cursor-pointer transition-all duration-200"
               >
-                <span>Clients I work with</span>
-                <ArrowRight className="w-6 h-6 text-[#8C6D46] transform group-hover:translate-x-1.5 transition-transform" />
+                <span>WHY THIS WORKS</span>
+                <ArrowRight className="w-6 h-6 text-[#52525B] transform group-hover:translate-x-1.5 transition-transform" />
               </button>
 
               {onRequestSiteClick && (
@@ -109,19 +109,32 @@ export default function CollapsibleMenu({
                     onClose();
                     onRequestSiteClick();
                   }}
-                  className="w-full text-left font-display font-black text-3xl sm:text-4xl text-[#1A1A1A] hover:text-[#8C6D46] uppercase tracking-tight py-4 border-b-2 border-[#1A1A1A]/10 hover:border-[#8C6D46] flex items-center justify-between group cursor-pointer transition-all duration-200"
+                  className="w-full text-left font-display font-black text-3xl sm:text-4xl text-[#18181B] hover:text-[#52525B] uppercase tracking-tight py-4 border-b-2 border-[#18181B]/10 hover:border-[#52525B] flex items-center justify-between group cursor-pointer transition-all duration-200"
                 >
                   <span className="flex items-center gap-2.5">
-                    <span>Request Your Site</span>
+                    <span>Request Yours</span>
                   </span>
-                  <ArrowRight className="w-6 h-6 text-[#8C6D46] transform group-hover:translate-x-1.5 transition-transform" />
+                  <ArrowRight className="w-6 h-6 text-[#52525B] transform group-hover:translate-x-1.5 transition-transform" />
                 </button>
               )}
+
+              <button
+                onClick={() => {
+                  onClose();
+                  window.location.hash = "testimonial";
+                }}
+                className="w-full text-left font-display font-black text-3xl sm:text-4xl text-[#18181B] hover:text-[#52525B] uppercase tracking-tight py-4 border-b-2 border-[#18181B]/10 hover:border-[#52525B] flex items-center justify-between group cursor-pointer transition-all duration-200"
+              >
+                <span className="flex items-center gap-2.5">
+                  <span>Leave a Review</span>
+                </span>
+                <ArrowRight className="w-6 h-6 text-[#52525B] transform group-hover:translate-x-1.5 transition-transform" />
+              </button>
             </div>
 
             {/* Footer of the Collapsible Menu: CTA for WhatsApp */}
-            <div className="pt-6 border-t border-[#1A1A1A]/15 space-y-2.5">
-              <span className="font-mono text-[9px] font-black uppercase tracking-[0.2em] text-[#8C6D46] block">
+            <div className="pt-6 border-t border-[#18181B]/15 space-y-2.5">
+              <span className="font-mono text-[9px] font-black uppercase tracking-[0.2em] text-[#52525B] block">
                 GET IN TOUCH
               </span>
 
@@ -130,7 +143,7 @@ export default function CollapsibleMenu({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={onClose}
-                className="group relative flex items-center justify-between w-full bg-[#1A1A1A] hover:bg-[#8C6D46] text-white border-2 border-[#1A1A1A] p-4 shadow-[4px_4px_0px_0px_#8C6D46] hover:shadow-[6px_6px_0px_0px_#1A1A1A] transition-all duration-200 cursor-pointer"
+                className="group relative flex items-center justify-between w-full bg-[#18181B] hover:bg-[#27272A] text-white border-2 border-[#18181B] p-4 shadow-[4px_4px_0px_0px_#71717A] hover:shadow-[6px_6px_0px_0px_#18181B] transition-all duration-200 cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white shrink-0">

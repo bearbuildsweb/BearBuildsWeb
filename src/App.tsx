@@ -5,6 +5,7 @@ import RequestSite from "./components/RequestSite";
 import Footer from "./components/Footer";
 import WhatsAppWidget from "./components/WhatsAppWidget";
 import CollapsibleMenu from "./components/CollapsibleMenu";
+import TestimonialModal from "./components/TestimonialModal";
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,6 +36,7 @@ export default function App() {
   };
 
   const handleScrollToWhoIHelp = () => {
+    window.dispatchEvent(new CustomEvent("expand-who-i-help"));
     const whoIHelpElement = document.getElementById("who-i-help");
     if (whoIHelpElement) {
       whoIHelpElement.scrollIntoView({ behavior: "smooth" });
@@ -79,6 +81,9 @@ export default function App() {
 
       {/* Editorial WhatsApp Contact Widget (hidden when in Request Site section or menu is open) */}
       <WhatsAppWidget isHidden={isMenuOpen || isInRequestSiteSection} />
+
+      {/* Testimonials Review Modal (Hash-routed via #testimonial or #testimonials) */}
+      <TestimonialModal />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 {
   "name": "Bear Builds Web",
-  "description": "showcase your work and make bookings effortless",
+  "description": "making your photography feel at home online.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

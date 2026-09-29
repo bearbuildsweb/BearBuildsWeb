@@ -1,17 +1,20 @@
 export interface ServiceItem {
   id: string;
   focus: string;
-  title: string;
-  quote: string;
-  approach: string;
+  title?: string;
+  subheading: string;
+  paragraph: string;
   theme: "light" | "dark";
 }
 
 export type ProfessionType = "Photographer" | "Makeup Artist" | "Landscaper" | "";
 
+export type CurrentToolType = "INSTAGRAM" | "WHATSAPP" | "EMAIL" | "PIXIE SET";
+
 export interface SiteRequestFormData {
   name: string;
-  profession: ProfessionType;
+  tools: string[];
+  profession?: ProfessionType;
   businessName?: string;
   whatsappNumber?: string;
 }

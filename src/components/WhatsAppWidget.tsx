@@ -8,7 +8,7 @@ interface WhatsAppWidgetProps {
 export default function WhatsAppWidget({ isHidden = false }: WhatsAppWidgetProps) {
   // Pre-filled WhatsApp message
   const whatsappUrl = `https://wa.me/27680246914?text=${encodeURIComponent(
-    "Hi Bear, I’d like to chat about a website."
+    "Hi Bear, I’d like to talk about building a DIGITAL FRONT DOOR for my work."
   )}`;
 
   return (
@@ -25,14 +25,14 @@ export default function WhatsAppWidget({ isHidden = false }: WhatsAppWidgetProps
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative flex items-center gap-2.5 sm:gap-3 bg-[#FAF8F5] hover:bg-[#FFFFFF] border-2 border-[#1A1A1A] px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xs shadow-[3.5px_3.5px_0px_0px_#1A1A1A] hover:shadow-[5px_5px_0px_0px_#8C6D46] -rotate-[1deg] hover:rotate-0 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
+            className="group relative flex items-center gap-2.5 sm:gap-3 bg-white hover:bg-[#F8F9FA] border-2 border-[#18181B] px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xs shadow-[3.5px_3.5px_0px_0px_#18181B] hover:shadow-[5px_5px_0px_0px_#71717A] -rotate-[1deg] hover:rotate-0 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
             aria-label="Talk to Bear on WhatsApp"
           >
             {/* Subtle Pinned Washi Tape Accent at Top */}
-            <div className="absolute -top-2 left-6 sm:left-8 w-8 sm:w-10 h-2.5 bg-[#E2D8C7]/90 border-x border-[#1A1A1A]/15 shadow-xs -rotate-2 group-hover:rotate-0 transition-transform duration-300 pointer-events-none" />
+            <div className="absolute -top-2 left-6 sm:left-8 w-8 sm:w-10 h-2.5 bg-[#E5E7EB]/90 border-x border-[#18181B]/15 shadow-xs -rotate-2 group-hover:rotate-0 transition-transform duration-300 pointer-events-none" />
 
             {/* Understated Editorial WhatsApp Icon Capsule */}
-            <div className="relative w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#1A1A1A]/5 border border-[#1A1A1A]/20 flex items-center justify-center text-[#1A1A1A] group-hover:text-[#8C6D46] group-hover:border-[#8C6D46]/40 transition-colors shrink-0">
+            <div className="relative w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#18181B]/5 border border-[#18181B]/20 flex items-center justify-center text-[#18181B] group-hover:text-[#52525B] group-hover:border-[#52525B]/40 transition-colors shrink-0">
               <svg
                 className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current transition-transform duration-300 group-hover:scale-105"
                 viewBox="0 0 24 24"
@@ -42,18 +42,18 @@ export default function WhatsAppWidget({ isHidden = false }: WhatsAppWidgetProps
               </svg>
 
               {/* Understated Live Status Pip */}
-              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#8C6D46] border border-[#FAF8F5]" />
+              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#52525B] border border-white" />
             </div>
 
             {/* Editorial Text Slot with Animated Hover Reveal */}
             <div className="relative overflow-hidden h-4 flex items-center pr-0.5">
               {/* Default Label (desktop + mobile) */}
-              <span className="font-mono text-[9.5px] sm:text-[10px] font-black uppercase tracking-[0.16em] text-[#1A1A1A] transition-all duration-300 group-hover:-translate-y-5 group-hover:opacity-0 flex items-center gap-1.5 whitespace-nowrap">
+              <span className="font-mono text-[9.5px] sm:text-[10px] font-black uppercase tracking-[0.16em] text-[#18181B] transition-all duration-300 group-hover:-translate-y-5 group-hover:opacity-0 flex items-center gap-1.5 whitespace-nowrap">
                 TALK TO BEAR
               </span>
 
               {/* Hover Label (revealed on desktop hover) */}
-              <span className="absolute inset-0 font-mono text-[9.5px] sm:text-[10px] font-black uppercase tracking-[0.16em] text-[#8C6D46] transition-all duration-300 translate-y-5 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 flex items-center gap-1 whitespace-nowrap">
+              <span className="absolute inset-0 font-mono text-[9.5px] sm:text-[10px] font-black uppercase tracking-[0.16em] text-[#52525B] transition-all duration-300 translate-y-5 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 flex items-center gap-1 whitespace-nowrap">
                 <span>MESSAGE BEAR</span>
                 <span className="font-sans font-bold text-xs">→</span>
               </span>
