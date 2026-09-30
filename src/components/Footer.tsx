@@ -6,7 +6,7 @@ export default function Footer() {
   const [copied, setCopied] = useState(false);
 
   const copyEmail = () => {
-    navigator.clipboard.writeText("bearbuildsweb@gmail.com");
+    navigator.clipboard.writeText("hello@bearbuildsweb.co.za");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -17,7 +17,7 @@ export default function Footer() {
 
   return (
     <footer id="contact" className="bg-[#18181B] text-[#F4F5F7] py-16 px-6 lg:px-16 border-t-2 border-brand-text relative overflow-hidden scroll-mt-10">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center lg:items-start gap-10">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center lg:items-end gap-10">
         
         {/* Left Side: Logo & Description */}
         <div className="space-y-2 w-full lg:w-72 text-center lg:text-left">
@@ -31,61 +31,56 @@ export default function Footer() {
         </div>
 
         {/* Right Side: Email Action */}
-        <div className="w-full lg:w-auto flex flex-col items-center lg:items-end gap-4 overflow-hidden">
-          <span className="font-mono text-[9px] uppercase font-black tracking-widest text-zinc-400">
-            FOR A MORE FORMAL INTRODUCTION
-          </span>
+        <div className="w-full lg:w-auto flex flex-col items-center lg:flex-row lg:items-center justify-center lg:justify-end gap-3 sm:gap-3.5">
+          <button 
+            onClick={copyEmail}
+            className="order-1 lg:order-2 p-2.5 rounded-none bg-white/5 hover:bg-zinc-800 border border-white/10 hover:border-zinc-500 text-white/60 hover:text-white transition-all cursor-pointer relative shrink-0"
+            title="Copy email to clipboard"
+            aria-label="Copy email to clipboard"
+          >
+            <AnimatePresence mode="wait">
+              {copied ? (
+                <motion.div
+                  key="check"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.8, opacity: 0 }}
+                >
+                  <Check className="w-4 h-4 text-white" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="copy"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.8, opacity: 0 }}
+                >
+                  <Copy className="w-4 h-4 text-white/80" />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-          <div className="relative group flex items-center justify-center lg:justify-end gap-2 sm:gap-3 max-w-full">
-            <a 
-              href="mailto:bearbuildsweb@gmail.com"
-              className="font-sans font-extrabold text-base sm:text-xl md:text-2xl lg:text-3xl text-white/65 hover:text-white transition-colors tracking-wide select-all break-all sm:break-normal text-center lg:text-right"
-            >
-              BEARBUILDSWEB@GMAIL.COM
-            </a>
+            {/* Toast tooltip */}
+            <AnimatePresence>
+              {copied && (
+                <motion.span
+                  initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                  animate={{ opacity: 1, y: -35, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.9 }}
+                  className="absolute bottom-full left-1/2 transform -translate-x-1/2 px-2.5 py-1 bg-zinc-800 text-white text-[9px] font-mono uppercase tracking-wider rounded-none shadow-lg whitespace-nowrap pointer-events-none z-10"
+                >
+                  Copied Email!
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </button>
 
-            <button 
-              onClick={copyEmail}
-              className="p-2.5 rounded-none bg-white/5 hover:bg-zinc-800 border border-white/10 hover:border-zinc-500 text-white/60 hover:text-white transition-all cursor-pointer relative shrink-0"
-              title="Copy email to clipboard"
-            >
-              <AnimatePresence mode="wait">
-                {copied ? (
-                  <motion.div
-                    key="check"
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.8, opacity: 0 }}
-                  >
-                    <Check className="w-4 h-4 text-white" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="copy"
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.8, opacity: 0 }}
-                  >
-                    <Copy className="w-4 h-4 text-white/80" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Toast tooltip */}
-              <AnimatePresence>
-                {copied && (
-                  <motion.span
-                    initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                    animate={{ opacity: 1, y: -35, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                    className="absolute bottom-full left-1/2 transform -translate-x-1/2 px-2.5 py-1 bg-zinc-800 text-white text-[9px] font-mono uppercase tracking-wider rounded-none shadow-lg whitespace-nowrap pointer-events-none"
-                  >
-                    Copied Email!
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </button>
-          </div>
+          <a 
+            href="mailto:hello@bearbuildsweb.co.za"
+            className="order-2 lg:order-1 font-sans font-extrabold text-base sm:text-xl md:text-2xl lg:text-3xl text-white/65 hover:text-white transition-colors tracking-wide select-all break-all sm:break-normal text-center lg:text-right"
+          >
+            HELLO@BEARBUILDSWEB.CO.ZA
+          </a>
         </div>
 
       </div>
