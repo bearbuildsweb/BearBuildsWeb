@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Copy, Check, ArrowUp } from "lucide-react";
-import workshopPegboardImg from "../assets/images/workshop_pegboard_texture_1791126522414.jpg";
 import charredTimberImg from "../assets/images/charred_timber_texture_1791126502415.jpg";
 import wornLeatherImg from "../assets/images/worn_leather_texture_1791126539147.jpg";
-import limewashBrickImg from "../assets/images/limewash_brick_1791131239146.jpg";
+import exposedBrickImg from "../assets/images/exposed_brick_texture_1791128124134.jpg";
 
 // Tactile Machined Brass / Copper Hardware Pin (Countersunk screw head)
 function BrassHardwarePin({ 
@@ -28,35 +27,6 @@ function BrassHardwarePin({
   );
 }
 
-// Antiqued Brass Corner Gusset Bracket
-function BrassCornerBracket({ 
-  position = "top-left", 
-}: { 
-  position: "top-left" | "top-right" | "bottom-left" | "bottom-right"; 
-}) {
-  const getStyles = () => {
-    switch (position) {
-      case "top-left":
-        return "top-0 left-0 border-t-2 border-l-2 rounded-tl-sm";
-      case "top-right":
-        return "top-0 right-0 border-t-2 border-r-2 rounded-tr-sm";
-      case "bottom-left":
-        return "bottom-0 left-0 border-b-2 border-l-2 rounded-bl-sm";
-      case "bottom-right":
-        return "bottom-0 right-0 border-b-2 border-r-2 rounded-br-sm";
-    }
-  };
-
-  return (
-    <div 
-      className={`absolute w-6 h-6 sm:w-7 sm:h-7 ${getStyles()} border-white/15 bg-gradient-to-br from-white/5 to-transparent pointer-events-none z-30 flex items-center justify-center opacity-60`}
-      aria-hidden="true"
-    >
-      <BrassHardwarePin size={8} />
-    </div>
-  );
-}
-
 export default function Footer() {
   const [copied, setCopied] = useState(false);
 
@@ -71,57 +41,39 @@ export default function Footer() {
   };
 
   return (
-    <footer id="contact" className="relative w-full px-2 sm:px-4 lg:px-8 pt-6 pb-14 overflow-hidden scroll-mt-10 bg-[#E8E4DD]">
+    <footer id="contact" className="relative w-full overflow-hidden scroll-mt-10 bg-gradient-to-b from-[#14161A] via-[#101115] to-[#0B0C0E] text-[#F4F5F7]">
       
-      {/* Lime Washed Fireplace Tile Brick Section Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+      {/* Exposed Red Brick Top Section Divider (Matching Hero section) */}
+      <div className="relative w-full h-4 sm:h-5 md:h-6 bg-[#3B1910] border-t border-[#6E2E1F] border-b border-black/80 shadow-[0_4px_16px_rgba(0,0,0,0.7),inset_0_1px_2px_rgba(255,255,255,0.2)] overflow-hidden z-20">
         <img 
-          src={limewashBrickImg} 
+          src={exposedBrickImg} 
           alt="" 
-          className="w-full h-full object-cover object-center contrast-[108%] brightness-[97%]" 
+          className="w-full h-full object-cover object-center filter contrast-115 saturate-105" 
           referrerPolicy="no-referrer"
         />
-        {/* Lime wash chalky powdery glaze overlay */}
-        <div className="absolute inset-0 bg-[#F6F3ED]/25 mix-blend-soft-light" />
-        {/* Natural masonry shadow vignette */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/35 pointer-events-none" />
-        {/* Ambient soft hearth depth gradient */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_95%_75%_at_50%_50%,transparent_50%,rgba(0,0,0,0.25)_100%)] pointer-events-none" />
+        {/* Subtle Mortar Vignette Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/40 pointer-events-none" />
       </div>
 
-      {/* Outer Framed Workshop Canvas: Quiet Charcoal-Walnut Card with Calming Overlay */}
-      <div className="relative max-w-[1440px] mx-auto rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] overflow-hidden border border-white/15 shadow-[0_35px_90px_rgba(10,12,15,0.65),0_12px_30px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.06)] bg-gradient-to-b from-[#14161A] via-[#101115] to-[#0B0C0E] text-[#F4F5F7] px-6 sm:px-10 lg:px-16 py-12 sm:py-16">
+      {/* Dark Walnut Wood Texture Underlay across full section (Quiet and Subtle) */}
+      <div className="absolute inset-0 opacity-15 mix-blend-overlay pointer-events-none overflow-hidden">
+        <img src={charredTimberImg} alt="" className="w-full h-full object-cover" />
+      </div>
+
+      {/* Deep Dark Calming Veil */}
+      <div className="absolute inset-0 bg-[#0E1013]/70 pointer-events-none" />
+
+      {/* Soft, Understated Warm Ambient Incandescent Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_50%_at_50%_0%,rgba(245,158,11,0.05),transparent_70%)] pointer-events-none" />
+
+      {/* Full-Width Section Content Container */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-12 sm:pt-16 pb-12 sm:pb-16">
         
-        {/* Dark Walnut Wood Texture Underlay (Quiet and Subtle) */}
-        <div className="absolute inset-0 opacity-15 mix-blend-overlay pointer-events-none overflow-hidden">
-          <img src={charredTimberImg} alt="" className="w-full h-full object-cover" />
-        </div>
-
-        {/* Deep Dark Calming Veil to Guarantee Zero Clashing with Typography */}
-        <div className="absolute inset-0 bg-[#0E1013]/70 pointer-events-none" />
-
-        {/* Soft, Understated Warm Ambient Incandescent Glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_50%_at_50%_0%,rgba(245,158,11,0.05),transparent_70%)] pointer-events-none" />
-
-        {/* Antiqued Brass Corner Gusset Brackets */}
-        <BrassCornerBracket position="top-left" />
-        <BrassCornerBracket position="top-right" />
-        <BrassCornerBracket position="bottom-left" />
-        <BrassCornerBracket position="bottom-right" />
-
-        {/* Top Edge Alignment Fasteners (Subtle and Muted) */}
-        <div className="absolute top-2.5 left-1/2 -translate-x-1/2 hidden sm:flex items-center gap-6 pointer-events-none opacity-40">
-          <BrassHardwarePin size={9} />
-          <BrassHardwarePin size={9} />
-        </div>
-
-        <div className="relative z-10 flex flex-col lg:flex-row justify-between items-center lg:items-end gap-10">
+        <div className="flex flex-col lg:flex-row justify-between items-center lg:items-end gap-10">
           
-          {/* Left Side: Logo & Monospace Intro Description */}
-          <div className="space-y-2.5 w-full lg:w-80 text-center lg:text-left">
-            <p className="font-mono text-[11px] sm:text-xs text-zinc-400 max-w-xs leading-relaxed mx-auto lg:mx-0 uppercase tracking-[0.2em]">
-              One deliberate digital home.
-            </p>
+          {/* Left Side: Logo (Omitted "One deliberate digital home" as requested) */}
+          <div className="w-full lg:w-80 text-center lg:text-left">
             <h3 className="text-xl md:text-2xl uppercase tracking-normal whitespace-nowrap flex items-center justify-center lg:justify-start gap-1.5">
               <span className="font-sans font-black text-white">BEAR </span>
               <span className="text-zinc-400 italic font-serif font-bold lowercase">builds web</span>

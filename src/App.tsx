@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Preloader from "./components/Preloader";
 import Hero from "./components/Hero";
 import WhoIHelp from "./components/WhoIHelp";
 import RequestSite from "./components/RequestSite";
@@ -70,6 +71,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-brand-bg text-brand-text selection:bg-brand-accent selection:text-white overflow-x-hidden font-sans">
+      {/* Full-Screen Website Preloader (Woodshop Lego Bricks assembling stylized Bear Head) */}
+      <Preloader />
+
       <main>
         {/* Hero Section */}
         <Hero 

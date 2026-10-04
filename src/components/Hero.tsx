@@ -260,7 +260,7 @@ export default function Hero({ onRequestSiteClick, onContactClick, onWhoIHelpCli
                 BEAR BUILDS WEB
               </span>
               <span className="font-sans text-[9px] sm:text-[10px] font-medium tracking-[0.18em] text-[#D4C3B3] uppercase antialiased">
-                YOUR TOOLS. ONE PLACE.
+                FOR YOUR TOOLS
               </span>
             </div>
           </motion.a>
@@ -356,7 +356,7 @@ export default function Hero({ onRequestSiteClick, onContactClick, onWhoIHelpCli
                 {/* Stamped Editorial Tag at bottom right */}
                 <div className="absolute -bottom-2.5 -right-2 font-mono text-[9px] sm:text-[10px] text-[#1C1814] font-extrabold bg-gradient-to-r from-[#FDFBF7] to-[#EADBCE] px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-sm border border-amber-900/30 shadow-xl z-30 tracking-widest uppercase antialiased flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse" />
-                  <span>CPT // ZA</span>
+                  <span>SOUTH AFRICA</span>
                 </div>
 
                 {/* Main Mask Capsule with Warm Editorial Grading */}
@@ -449,7 +449,7 @@ export default function Hero({ onRequestSiteClick, onContactClick, onWhoIHelpCli
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.9)]" />
                       </span>
                       <span className="font-mono text-[10px] sm:text-[11px] font-bold tracking-[0.18em] uppercase text-zinc-200">
-                        NOTE // FROM BEAR
+                        HELLO, I'M BEAR
                       </span>
                     </div>
                   </div>
