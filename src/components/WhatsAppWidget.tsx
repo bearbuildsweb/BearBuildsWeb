@@ -3,9 +3,13 @@ import { motion, AnimatePresence } from "motion/react";
 
 interface WhatsAppWidgetProps {
   isHidden?: boolean;
+  hideOnMobileInHero?: boolean;
 }
 
-export default function WhatsAppWidget({ isHidden = false }: WhatsAppWidgetProps) {
+export default function WhatsAppWidget({ 
+  isHidden = false,
+  hideOnMobileInHero = false,
+}: WhatsAppWidgetProps) {
   // Pre-filled WhatsApp message
   const whatsappUrl = `https://wa.me/27680246914?text=${encodeURIComponent(
     "Hi Bear, I’d like to talk about building a DIGITAL FRONT DOOR for my work."
@@ -19,7 +23,9 @@ export default function WhatsAppWidget({ isHidden = false }: WhatsAppWidgetProps
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 16, scale: 0.94 }}
           transition={{ duration: 0.25 }}
-          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 select-none"
+          className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 select-none ${
+            hideOnMobileInHero ? "hidden sm:block" : ""
+          }`}
         >
           <a
             href={whatsappUrl}

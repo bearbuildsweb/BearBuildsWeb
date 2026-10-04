@@ -10,6 +10,24 @@ import TestimonialModal from "./components/TestimonialModal";
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isInRequestSiteSection, setIsInRequestSiteSection] = useState(false);
+  const [isInHeroSection, setIsInHeroSection] = useState(true);
+
+  useEffect(() => {
+    const heroEl = document.getElementById("hero");
+    if (!heroEl) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInHeroSection(entry.isIntersecting);
+      },
+      {
+        threshold: 0.05,
+      }
+    );
+
+    observer.observe(heroEl);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const el = document.getElementById("request-site");
@@ -79,8 +97,11 @@ export default function App() {
         onRequestSiteClick={handleScrollToRequestSite}
       />
 
-      {/* Editorial WhatsApp Contact Widget (hidden when in Request Site section or menu is open) */}
-      <WhatsAppWidget isHidden={isMenuOpen || isInRequestSiteSection} />
+      {/* Editorial WhatsApp Contact Widget (hidden when in Request Site section or menu is open, and hidden on mobile while in hero section) */}
+      <WhatsAppWidget 
+        isHidden={isMenuOpen || isInRequestSiteSection} 
+        hideOnMobileInHero={isInHeroSection}
+      />
 
       {/* Testimonials Review Modal (Hash-routed via #testimonial or #testimonials) */}
       <TestimonialModal />
