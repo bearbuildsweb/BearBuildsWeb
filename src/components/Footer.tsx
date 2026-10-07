@@ -43,17 +43,17 @@ export default function Footer() {
   return (
     <footer id="contact" className="relative w-full overflow-hidden scroll-mt-10 bg-gradient-to-b from-[#14161A] via-[#101115] to-[#0B0C0E] text-[#F4F5F7]">
       
-      {/* Exposed Red Brick Top Section Divider (Matching Hero section) */}
-      <div className="relative w-full h-4 sm:h-5 md:h-6 bg-[#3B1910] border-t border-[#6E2E1F] border-b border-black/80 shadow-[0_4px_16px_rgba(0,0,0,0.7),inset_0_1px_2px_rgba(255,255,255,0.2)] overflow-hidden z-20">
+      {/* Subtle Greyed-Out Exposed Brick Top Section Divider */}
+      <div className="relative w-full h-3.5 sm:h-4.5 md:h-5 bg-[#17191D] border-t border-white/10 border-b border-black/80 shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.08)] overflow-hidden z-20">
         <img 
           src={exposedBrickImg} 
           alt="" 
-          className="w-full h-full object-cover object-center filter contrast-115 saturate-105" 
+          className="w-full h-full object-cover object-center filter grayscale opacity-35 contrast-100 brightness-90" 
           referrerPolicy="no-referrer"
         />
-        {/* Subtle Mortar Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/40 pointer-events-none" />
+        {/* Subtle Charcoal Vignette Overlay to soften attention */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#101215] via-transparent to-[#101215] pointer-events-none" />
+        <div className="absolute inset-0 bg-[#0E1013]/40 pointer-events-none" />
       </div>
 
       {/* Dark Walnut Wood Texture Underlay across full section (Quiet and Subtle) */}
@@ -70,23 +70,24 @@ export default function Footer() {
       {/* Full-Width Section Content Container */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-12 sm:pt-16 pb-12 sm:pb-16">
         
-        <div className="flex flex-col lg:flex-row justify-between items-center lg:items-end gap-10">
+        {/* Row with exact vertical center alignment for logo and email */}
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-8 lg:gap-10">
           
-          {/* Left Side: Logo (Omitted "One deliberate digital home" as requested) */}
-          <div className="w-full lg:w-80 text-center lg:text-left">
-            <h3 className="text-xl md:text-2xl uppercase tracking-normal whitespace-nowrap flex items-center justify-center lg:justify-start gap-1.5">
+          {/* Left Side: Logo (Vertically centered with email) */}
+          <div className="w-full lg:w-auto text-center lg:text-left flex items-center justify-center lg:justify-start">
+            <h3 className="text-xl md:text-2xl uppercase tracking-normal whitespace-nowrap flex items-center justify-center lg:justify-start gap-1.5 leading-none">
               <span className="font-sans font-black text-white">BEAR </span>
               <span className="text-zinc-400 italic font-serif font-bold lowercase">builds web</span>
             </h3>
           </div>
 
-          {/* Right Side: Stamped Tag Email & Tactile Control */}
-          <div className="w-full lg:w-auto flex flex-col items-center lg:flex-row lg:items-center justify-center lg:justify-end gap-3.5 sm:gap-4">
+          {/* Right Side: Stamped Tag Email & Tactile Control (Vertically centered with logo) */}
+          <div className="w-full lg:w-auto flex flex-col sm:flex-row items-center justify-center lg:justify-end gap-3.5 sm:gap-4">
             
             {/* Tactile Push-Button: Subtle Gunmetal / Antique Brass Bevel */}
             <button 
               onClick={copyEmail}
-              className="order-1 lg:order-2 relative p-[2px] rounded-xl bg-gradient-to-b from-[#4B4E57] via-[#2F323A] to-[#18191E] shadow-[0_4px_8px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.18)] hover:from-[#646875] hover:via-[#3C404B] hover:to-[#22242B] group active:translate-y-0.5 transition-all duration-150 cursor-pointer shrink-0"
+              className="order-1 sm:order-2 relative p-[2px] rounded-xl bg-gradient-to-b from-[#4B4E57] via-[#2F323A] to-[#18191E] shadow-[0_4px_8px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.18)] hover:from-[#646875] hover:via-[#3C404B] hover:to-[#22242B] group active:translate-y-0.5 transition-all duration-150 cursor-pointer shrink-0"
               title="Copy email to clipboard"
               aria-label="Copy email to clipboard"
             >
@@ -132,7 +133,7 @@ export default function Footer() {
             {/* Stamped Leather / Embossed Metal Tag for Email Address */}
             <a 
               href="mailto:hello@bearbuildsweb.co.za"
-              className="order-2 lg:order-1 group relative inline-flex items-center px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg bg-gradient-to-b from-[#1A1C22]/90 via-[#131418] to-[#0C0D10] border border-white/15 shadow-[inset_0_2px_4px_rgba(0,0,0,0.85),0_6px_16px_rgba(0,0,0,0.5),inset_0_-1px_1px_rgba(255,255,255,0.06)] hover:border-white/30 transition-all duration-300 overflow-hidden cursor-pointer"
+              className="order-2 sm:order-1 group relative inline-flex items-center px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg bg-gradient-to-b from-[#1A1C22]/90 via-[#131418] to-[#0C0D10] border border-white/15 shadow-[inset_0_2px_4px_rgba(0,0,0,0.85),0_6px_16px_rgba(0,0,0,0.5),inset_0_-1px_1px_rgba(255,255,255,0.06)] hover:border-white/30 transition-all duration-300 overflow-hidden cursor-pointer"
             >
               {/* Subtle Texture Grain Underlay */}
               <img 
@@ -147,7 +148,7 @@ export default function Footer() {
               </div>
 
               {/* Clean, Non-Clashing Off-White Embossed Typography */}
-              <span className="relative z-10 font-sans font-bold text-sm sm:text-base md:text-xl lg:text-2xl text-zinc-200 tracking-wider sm:tracking-[0.14em] select-all break-all sm:break-normal [text-shadow:_0_1px_2px_rgba(0,0,0,0.95)] group-hover:text-white transition-colors">
+              <span className="relative z-10 font-sans font-bold text-sm sm:text-base md:text-xl lg:text-2xl text-zinc-200 tracking-wider sm:tracking-[0.14em] select-all break-all sm:break-normal [text-shadow:_0_1px_2px_rgba(0,0,0,0.95)] group-hover:text-white transition-colors leading-none">
                 HELLO@BEARBUILDSWEB.CO.ZA
               </span>
 

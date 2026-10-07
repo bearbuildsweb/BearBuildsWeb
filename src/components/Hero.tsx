@@ -342,8 +342,8 @@ export default function Hero({ onRequestSiteClick, onContactClick, onWhoIHelpCli
               </div>
             </motion.div>
 
-            {/* Central Composition: Photography Square Frame with Shutters */}
-            <div className="relative w-full flex items-center justify-center -mt-3.5 sm:mt-1 md:-mt-2 lg:-mt-4 z-20">
+            {/* Central Composition: Photography Square Frame with Permanent Side Shutters */}
+            <div className="relative w-full flex items-center justify-center mt-3 sm:mt-6 md:mt-8 lg:mt-10 z-20">
               
               {/* Photography Square Craftsman Window with Permanent Side Shutters */}
               <motion.div 
@@ -351,7 +351,7 @@ export default function Hero({ onRequestSiteClick, onContactClick, onWhoIHelpCli
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 whileHover={{ scale: 1.01 }}
                 transition={{ duration: 0.85, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="relative w-[215px] sm:w-60 md:w-68 lg:w-74 aspect-square group shrink-0 cursor-pointer my-4 lg:my-0"
+                className="relative w-[180px] sm:w-56 md:w-64 lg:w-72 aspect-square group shrink-0 cursor-pointer my-4 lg:my-0"
               >
                 {/* Worn Leather / Charred Wood Backing Frame */}
                 <div className="absolute inset-0 translate-x-2 translate-y-2 sm:translate-x-3 sm:translate-y-3 rounded-2xl sm:rounded-3xl border-2 border-[#543825]/40 bg-[#1A1512]/85 pointer-events-none transition-transform duration-500 group-hover:translate-x-1.5 group-hover:translate-y-1.5 overflow-hidden shadow-xl">

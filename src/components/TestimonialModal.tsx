@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Check, XCircle, ChevronDown } from "lucide-react";
+import { X, Check, XCircle } from "lucide-react";
 
 export type ReactionLevel = "terrible" | "bad" | "ok" | "good" | "great";
 
@@ -18,16 +18,10 @@ const REACTIONS: ReactionOption[] = [
   { id: "great", label: "GREAT", value: 5 },
 ];
 
-const SERVICED_PROFESSIONS = [
-  "Photographer",
-  "Makeup Artist",
-  "Landscaper",
-] as const;
-
 export interface TestimonialItem {
   id: string;
   name: string;
-  role: string;
+  role?: string;
   rating: ReactionLevel;
   review: string;
   date: string;
@@ -38,7 +32,6 @@ export default function TestimonialModal() {
   const [rating, setRating] = useState<ReactionLevel | null>("good");
   const [hoveredReaction, setHoveredReaction] = useState<ReactionLevel | null>(null);
   const [name, setName] = useState("");
-  const [role, setRole] = useState<string>("");
   const [review, setReview] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -117,10 +110,6 @@ export default function TestimonialModal() {
       setError("Please enter your name.");
       return;
     }
-    if (!role.trim()) {
-      setError("Please select your profession.");
-      return;
-    }
     if (!review.trim()) {
       setError("Please write a few words about your experience.");
       return;
@@ -134,7 +123,7 @@ export default function TestimonialModal() {
       const newReview: TestimonialItem = {
         id: "rev_" + Date.now(),
         name: name.trim(),
-        role: role.trim(),
+        role: "Client",
         rating: rating || "good",
         review: review.trim(),
         date: new Date().toLocaleDateString("en-ZA", {
@@ -305,52 +294,22 @@ export default function TestimonialModal() {
                     </div>
                   </div>
 
-                  {/* Client Info (Name & Dropdown for the 3 serviced professions - Mandatory) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div>
-                      <label className="block text-xs font-semibold text-[#18181B] mb-1.5">
-                        Name
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={name}
-                        onChange={(e) => {
-                          setName(e.target.value);
-                          if (error) setError(null);
-                        }}
-                        placeholder="e.g. Vuyo Smith"
-                        className="w-full text-sm px-3.5 py-2.5 rounded-lg border border-[#18181B]/20 bg-white placeholder-[#18181B]/35 focus:outline-none focus:border-[#18181B] focus:ring-1 focus:ring-[#18181B] transition-all"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-[#18181B] mb-1.5">
-                        Profession
-                      </label>
-                      <div className="relative">
-                        <select
-                          required
-                          value={role}
-                          onChange={(e) => {
-                            setRole(e.target.value);
-                            if (error) setError(null);
-                          }}
-                          className="w-full text-sm pl-3.5 pr-10 py-2.5 rounded-lg border border-[#18181B]/20 bg-white text-[#18181B] focus:outline-none focus:border-[#18181B] focus:ring-1 focus:ring-[#18181B] transition-all cursor-pointer appearance-none"
-                        >
-                          <option value="" disabled>
-                            Select
-                          </option>
-                          {SERVICED_PROFESSIONS.map((profession) => (
-                            <option key={profession} value={profession}>
-                              {profession}
-                            </option>
-                          ))}
-                        </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3.5 text-[#18181B]/50">
-                          <ChevronDown className="w-4 h-4 stroke-[2.2]" />
-                        </div>
-                      </div>
-                    </div>
+                  {/* Client Info (Name) */}
+                  <div>
+                    <label className="block text-xs font-semibold text-[#18181B] mb-1.5">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={name}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                        if (error) setError(null);
+                      }}
+                      placeholder="e.g. Vuyo Smith"
+                      className="w-full text-sm px-3.5 py-2.5 rounded-lg border border-[#18181B]/20 bg-white placeholder-[#18181B]/35 focus:outline-none focus:border-[#18181B] focus:ring-1 focus:ring-[#18181B] transition-all"
+                    />
                   </div>
 
                   {/* Textarea: What was your experience? */}

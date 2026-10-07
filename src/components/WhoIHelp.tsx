@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { FolderOpen } from "lucide-react";
 import { ServiceItem } from "../types";
 
 const services: ServiceItem[] = [
@@ -202,19 +203,16 @@ export default function WhoIHelp() {
                       </div>
                     )}
 
-                    {/* Card Footer: STATUS: UNPACKED when expanded */}
+                    {/* Card Footer: Open folder icon when expanded */}
                     {isExpanded && (
-                      <div className="mt-6 pt-3.5 border-t border-current/10 flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <span
-                            className={`w-1.5 h-1.5 rounded-full ${
-                              isDark ? "bg-white/60" : "bg-brand-accent"
-                            } shrink-0`}
-                            aria-hidden="true"
+                      <div className="mt-5 pt-3 border-t border-current/10 flex items-center justify-between">
+                        <div className="flex items-center gap-2 opacity-50 hover:opacity-80 transition-opacity" title="Open Dossier">
+                          <FolderOpen
+                            className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
+                              isDark ? "text-zinc-300" : "text-[#18181B]"
+                            }`}
+                            strokeWidth={1.75}
                           />
-                          <span className="font-mono text-[9px] uppercase tracking-widest opacity-50 font-bold">
-                            STATUS: UNPACKED
-                          </span>
                         </div>
                       </div>
                     )}
