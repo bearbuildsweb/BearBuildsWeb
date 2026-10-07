@@ -74,6 +74,7 @@ export default function Preloader() {
     // 3. Fade out full screen loader: ~2100ms
     const completeTimer = setTimeout(() => {
       setStage("complete");
+      window.dispatchEvent(new CustomEvent("preloader-finished"));
     }, 2100);
 
     // 4. Remove completely from DOM after fade-out transition (600ms)
@@ -220,8 +221,8 @@ export default function Preloader() {
               BEAR BUILDS WEB
             </span>
           </div>
-          <span className="font-mono text-[9px] sm:text-[10px] tracking-[0.2em] text-[#D4C3B3]/60 uppercase antialiased">
-            FOR YOUR TOOLS
+          <span className="font-sans text-[10px] sm:text-[11px] font-semibold tracking-[0.16em] text-[#EADBCE] uppercase antialiased drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
+            FOR PHOTOGRAPHY TOOLS
           </span>
         </div>
 

@@ -14,23 +14,23 @@ const services: ServiceItem[] = [
   {
     id: "focus-02",
     focus: "FOCUS 02",
-    subheading: "Merge scattered tools into your own hub.",
+    subheading: "Bring your scattered platforms into one hub",
     paragraph:
-      "Bring your portfolio, enquiries, reviews and gallery gateway together under one roof — giving clients one clear, consistent place to experience your brand.",
+      "Bring your portfolio ° enquiries ° reviews ° gallery gateway together under one roof — giving clients one clear, consistent place to experience your brand.",
     theme: "dark",
   },
 ];
 
 export default function WhoIHelp() {
-  // Focus 01 is expanded by default; Focus 02 is collapsed by default.
+  // Focus 02 is expanded by default; Focus 01 is collapsed by default.
   // Expanding one collapses the other and vice versa.
-  const [activeFocusId, setActiveFocusId] = useState<string | null>("focus-01");
+  const [activeFocusId, setActiveFocusId] = useState<string | null>("focus-02");
 
-  // Automatically activate focus-01 if navigated to from menu or hero
+  // Automatically activate focus-02 if navigated to from menu or hero
   useEffect(() => {
     const handleExpand = () => {
       if (!activeFocusId) {
-        setActiveFocusId("focus-01");
+        setActiveFocusId("focus-02");
       }
     };
     window.addEventListener("expand-who-i-help", handleExpand);
@@ -54,9 +54,6 @@ export default function WhoIHelp() {
             <span className="w-2 h-2 rounded-full bg-brand-accent animate-pulse shrink-0" />
             <span className="font-mono text-[10px] sm:text-[11px] font-black text-brand-accent tracking-[0.2em] uppercase block">
               A BETTER CLIENT JOURNEY
-            </span>
-            <span className="font-mono text-[9px] uppercase tracking-wider text-[#18181B]/40 hidden sm:inline-block">
-              // WHERE WE'RE HEADED
             </span>
           </div>
         </div>

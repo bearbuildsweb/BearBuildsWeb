@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "motion/react";
 import { ArrowDown, Menu } from "lucide-react";
+import WoodenShutters from "./WoodenShutters";
 // @ts-ignore
 import heroPortrait2 from "../assets/images/hero_potrait_2.png";
 // @ts-ignore
@@ -255,12 +256,12 @@ export default function Hero({ onRequestSiteClick, onContactClick, onWhoIHelpCli
               <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 border border-black shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col justify-center">
               <span className="font-sans text-[12px] sm:text-[13px] font-bold tracking-[0.16em] text-[#FDFCF7] uppercase leading-tight antialiased">
                 BEAR BUILDS WEB
               </span>
-              <span className="font-sans text-[9px] sm:text-[10px] font-medium tracking-[0.18em] text-[#D4C3B3] uppercase antialiased">
-                FOR YOUR TOOLS
+              <span className="font-sans text-[10px] sm:text-[11px] font-semibold tracking-[0.14em] text-[#EADBCE] uppercase leading-tight antialiased drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
+                FOR PHOTOGRAPHY TOOLS
               </span>
             </div>
           </motion.a>
@@ -315,41 +316,61 @@ export default function Hero({ onRequestSiteClick, onContactClick, onWhoIHelpCli
                 </span>
               </div>
 
-              {/* Masthead Title: Curated High-End Magazine Serif */}
-              <h1 className="font-serif font-normal text-[15vw] sm:text-[13vw] lg:text-[132px] xl:text-[150px] text-[#FDFCF7] leading-[0.84] tracking-[-0.01em] uppercase drop-shadow-[0_12px_35px_rgba(0,0,0,0.65)] antialiased">
-                YOUR TOOLS
-              </h1>
+              {/* Masthead Container with Right-Aligned Accent Word */}
+              <div className="relative inline-block max-w-full">
+                {/* Masthead Title: Curated High-End Magazine Serif */}
+                <h1 className="font-serif font-normal text-[15vw] sm:text-[13vw] lg:text-[132px] xl:text-[150px] text-[#FDFCF7] leading-[0.84] tracking-[-0.01em] uppercase drop-shadow-[0_12px_35px_rgba(0,0,0,0.65)] antialiased">
+                  YOUR TOOLS
+                </h1>
+
+                {/* Forefront Accent Word: "Combined." — Aligned with the right-end of "TOOLS" (Hidden on mobile) */}
+                <motion.div 
+                  initial={{ opacity: 0, x: 20, y: 15 }}
+                  animate={{ opacity: 1, x: 0, y: 0 }}
+                  transition={{ duration: 0.85, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                  className="hidden sm:block absolute right-0 -bottom-5 sm:-bottom-7 md:-bottom-9 lg:-bottom-12 z-30 select-none text-right pointer-events-none"
+                >
+                  <div className="relative inline-block">
+                    <span className="font-serif italic font-normal text-3xl sm:text-4xl md:text-5xl lg:text-[56px] xl:text-[68px] text-[#F5EBE1] leading-[0.95] tracking-tight drop-shadow-[0_4px_28px_rgba(0,0,0,0.95)] block whitespace-nowrap">
+                      Combined.
+                    </span>
+                    
+                    {/* Curated Amber Filament Dot beside the Serif Period */}
+                    <span className="inline-block absolute bottom-1 sm:bottom-2 md:bottom-2.5 -right-2 sm:-right-2.5 w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-gradient-to-br from-amber-300 via-amber-500 to-amber-700 shadow-[0_2px_8px_rgba(245,158,11,0.8)] border border-amber-200/40" />
+                  </div>
+                </motion.div>
+              </div>
             </motion.div>
 
-            {/* Central Composition: Photography Capsule + "One Experience." */}
-            <div className="relative w-full flex flex-col lg:flex-row items-center justify-center -mt-3.5 sm:mt-1 md:-mt-2 lg:-mt-4 z-20">
+            {/* Central Composition: Photography Square Frame with Shutters */}
+            <div className="relative w-full flex items-center justify-center -mt-3.5 sm:mt-1 md:-mt-2 lg:-mt-4 z-20">
               
-              {/* Photography Capsule: Prevalent on mobile with a subtle, gentle baseline overlap on "YOUR TOOLS" */}
+              {/* Photography Square Craftsman Window with Permanent Side Shutters */}
               <motion.div 
-                initial={{ opacity: 0, scale: 0.88, y: 25, rotate: -2 }}
-                animate={{ opacity: 1, scale: 1, y: 0, rotate: -1 }}
-                whileHover={{ rotate: 0, scale: 1.02 }}
-                transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="relative w-[214px] sm:w-56 md:w-64 lg:w-72 aspect-[10/13] group shrink-0 cursor-pointer my-2 lg:my-0"
+                initial={{ opacity: 0, scale: 0.92, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                whileHover={{ scale: 1.01 }}
+                transition={{ duration: 0.85, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="relative w-[215px] sm:w-60 md:w-68 lg:w-74 aspect-square group shrink-0 cursor-pointer my-4 lg:my-0"
               >
                 {/* Worn Leather / Charred Wood Backing Frame */}
-                <div className="absolute inset-0 translate-x-2.5 translate-y-2.5 sm:translate-x-3.5 sm:translate-y-3.5 rounded-t-full rounded-b-[32px] border-2 border-[#543825]/40 bg-[#1A1512]/80 pointer-events-none transition-transform duration-500 group-hover:translate-x-2 group-hover:translate-y-2 overflow-hidden shadow-lg">
+                <div className="absolute inset-0 translate-x-2 translate-y-2 sm:translate-x-3 sm:translate-y-3 rounded-2xl sm:rounded-3xl border-2 border-[#543825]/40 bg-[#1A1512]/85 pointer-events-none transition-transform duration-500 group-hover:translate-x-1.5 group-hover:translate-y-1.5 overflow-hidden shadow-xl">
                   <img src={wornLeatherImg} alt="" className="w-full h-full object-cover opacity-40 mix-blend-overlay" />
                 </div>
                 
                 {/* Outer Machined Tension Ring with Warm Specular Accent */}
-                <div className="absolute -inset-2.5 rounded-t-full rounded-b-[38px] border border-amber-200/20 pointer-events-none transition-transform duration-500 group-hover:scale-102" />
+                <div className="absolute -inset-2 rounded-2xl sm:rounded-3xl border border-amber-200/20 pointer-events-none transition-transform duration-500 group-hover:scale-101" />
 
-                {/* Visible Metal Bracket Mounts on Portrait */}
-                <div className="absolute -top-2 left-4 z-30 flex items-center bg-[#1E2229] border border-white/30 p-1 rounded-full shadow-lg">
+                {/* Visible Metal Bracket Mounts on Square Frame */}
+                <div className="absolute -top-2 left-3 z-30 flex items-center bg-[#1E2229] border border-white/30 p-1 rounded-full shadow-lg">
                   <SocketBolt size={9} angle={45} />
                 </div>
-                <div className="absolute -top-2 right-4 z-30 flex items-center bg-[#1E2229] border border-white/30 p-1 rounded-full shadow-lg">
+                <div className="absolute -top-2 right-3 z-30 flex items-center bg-[#1E2229] border border-white/30 p-1 rounded-full shadow-lg">
                   <SocketBolt size={9} angle={120} />
                 </div>
 
                 {/* Bottom Left Corner Stud Array */}
-                <div className="absolute -bottom-3 -left-2 z-30 hidden sm:block">
+                <div className="absolute -bottom-2.5 -left-2 z-30 hidden sm:block">
                   <ModularStuds count={3} orientation="horizontal" />
                 </div>
 
@@ -359,35 +380,35 @@ export default function Hero({ onRequestSiteClick, onContactClick, onWhoIHelpCli
                   <span>SOUTH AFRICA</span>
                 </div>
 
-                {/* Main Mask Capsule with Warm Editorial Grading */}
-                <div className="relative w-full h-full rounded-t-full rounded-b-[32px] overflow-hidden border-[3px] sm:border-[4px] border-[#F1EBE1] bg-gradient-to-b from-[#2C2621] via-[#453A30] to-[#DDD2C4] shadow-[0_25px_60px_rgba(0,0,0,0.6)]">
-                  <img 
-                    src={heroPortrait2} 
-                    alt="Moemedi 'Bear' Leeu - Web Specialist & Developer" 
-                    className="w-full h-full object-cover contrast-[104%] group-hover:scale-105 transition-all duration-700 ease-out"
-                    referrerPolicy="no-referrer"
-                  />
-                  {/* Warm amber incandescent glow reflection from the exposed bulb */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#141518]/65 via-transparent to-amber-400/10 pointer-events-none" />
+                {/* Main Square Mask Frame with Warm Editorial Grading */}
+                <div className="relative w-full h-full rounded-xl sm:rounded-2xl border-[3px] sm:border-[4px] border-[#F1EBE1] bg-gradient-to-b from-[#2C2621] via-[#453A30] to-[#DDD2C4] shadow-[0_25px_60px_rgba(0,0,0,0.65)]">
+                  {/* Portrait photo clipped cleanly inside square frame */}
+                  <div 
+                    className="relative w-full h-full rounded-lg sm:rounded-xl overflow-hidden"
+                    style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
+                  >
+                    <img 
+                      src={heroPortrait2} 
+                      alt="Moemedi 'Bear' Leeu - Web Specialist & Developer" 
+                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-all duration-700 ease-out"
+                      style={{
+                        imageRendering: "auto",
+                        filter: "blur(0.25px) brightness(1.02) contrast(1.01) saturate(1.02)",
+                        transform: "translateZ(0)",
+                        backfaceVisibility: "hidden",
+                      }}
+                      referrerPolicy="no-referrer"
+                    />
+                    {/* Soft editorial filmic diffusion overlay (eliminates harsh digital aliasing) */}
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,transparent_45%,rgba(20,21,24,0.35)_100%)] pointer-events-none" />
+                    {/* Warm amber incandescent glow reflection from the exposed bulb */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#141518]/65 via-transparent to-amber-400/10 pointer-events-none" />
+                  </div>
+
+                  {/* Inward-Opening Bi-Fold Wooden Shutters with Brass Hinges */}
+                  <WoodenShutters />
                 </div>
 
-              </motion.div>
-
-              {/* Forefront Accent Word: "One Experience." (Hidden on mobile) */}
-              <motion.div 
-                initial={{ opacity: 0, x: 20, y: 15 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
-                transition={{ duration: 0.85, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                className="hidden sm:block mt-3 sm:mt-4 lg:mt-0 lg:ml-6 xl:ml-8 text-center lg:text-left z-25 select-none shrink-0"
-              >
-                <div className="relative inline-block">
-                  <span className="font-serif italic font-normal text-3xl sm:text-4xl md:text-5xl lg:text-[62px] xl:text-[76px] text-[#F5EBE1] leading-[0.95] tracking-tight drop-shadow-[0_4px_28px_rgba(0,0,0,0.85)] block whitespace-nowrap">
-                    One Experience.
-                  </span>
-                  
-                  {/* Curated Amber Filament Dot beside the Serif Period */}
-                  <span className="inline-block absolute bottom-1 sm:bottom-2 md:bottom-3 -right-2 sm:-right-2.5 w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-gradient-to-br from-amber-300 via-amber-500 to-amber-700 shadow-[0_2px_8px_rgba(245,158,11,0.8)] border border-amber-200/40" />
-                </div>
               </motion.div>
 
             </div>
