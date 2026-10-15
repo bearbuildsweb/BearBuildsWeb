@@ -1,115 +1,49 @@
-import React, { useState, useEffect } from "react";
-import Preloader from "./components/Preloader";
-import Hero from "./components/Hero";
-import WhoIHelp from "./components/WhoIHelp";
-import RequestSite from "./components/RequestSite";
-import Footer from "./components/Footer";
-import WhatsAppWidget from "./components/WhatsAppWidget";
-import CollapsibleMenu from "./components/CollapsibleMenu";
-import TestimonialModal from "./components/TestimonialModal";
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import React, { useState } from 'react';
+import { Header } from './components/Header.tsx';
+import { HeroHeadline } from './components/HeroHeadline.tsx';
+import { Centerpiece } from './components/Centerpiece.tsx';
+import { Footer } from './components/Footer.tsx';
+import { ContactModal } from './components/ContactModal.tsx';
 
 export default function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isInRequestSiteSection, setIsInRequestSiteSection] = useState(false);
-  const [isInHeroSection, setIsInHeroSection] = useState(true);
-
-  useEffect(() => {
-    const heroEl = document.getElementById("hero");
-    if (!heroEl) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInHeroSection(entry.isIntersecting);
-      },
-      {
-        threshold: 0.05,
-      }
-    );
-
-    observer.observe(heroEl);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const el = document.getElementById("request-site");
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInRequestSiteSection(entry.isIntersecting);
-      },
-      {
-        threshold: 0.05,
-      }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  const handleScrollToContact = () => {
-    const contactElement = document.getElementById("contact");
-    if (contactElement) {
-      contactElement.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const handleScrollToWhoIHelp = () => {
-    window.dispatchEvent(new CustomEvent("expand-who-i-help"));
-    const whoIHelpElement = document.getElementById("who-i-help");
-    if (whoIHelpElement) {
-      whoIHelpElement.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const handleScrollToRequestSite = () => {
-    const requestElement = document.getElementById("request-site");
-    if (requestElement) {
-      requestElement.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-brand-bg text-brand-text selection:bg-brand-accent selection:text-white overflow-x-hidden font-sans">
-      {/* Full-Screen Website Preloader (Woodshop Lego Bricks assembling stylized Bear Head) */}
-      <Preloader />
+    <div className="relative w-full h-screen min-h-[720px] max-h-screen overflow-hidden flex flex-col justify-between select-none font-['Kanit']">
+      {/* ─────────────────────────────────────────────────────────────
+          2-TONE BACKGROUND DIVIDER:
+          - Top Background: #FDFAF2 (Warm Vintage Ivory, exactly 67%)
+          - Bottom Background: #41474D (Deep Slate Gray, exactly 33%)
+          Horizon line is locked at top: 67%
+          ───────────────────────────────────────────────────────────── */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        {/* Top 67% (#FDFAF2) with subtle paper & craft grain texture */}
+        <div className="w-full h-[67%] bg-[#FDFAF2] relative overflow-hidden">
+          <div className="paper-grain absolute inset-0 pointer-events-none" />
+        </div>
+        {/* Horizon Divider Line & Bottom 33% (#41474D) */}
+        <div className="w-full h-[33%] bg-[#41474D] relative border-t border-[#41474D]/25 shadow-inner" />
+      </div>
 
-      <main>
-        {/* Hero Section */}
-        <Hero 
-          onRequestSiteClick={handleScrollToRequestSite}
-          onContactClick={handleScrollToContact} 
-          onWhoIHelpClick={handleScrollToWhoIHelp}
-          onToggleMenu={() => setIsMenuOpen((prev) => !prev)}
-        />
+      {/* Header (Brand mark & CTA) */}
+      <Header onOpenContact={() => setIsContactOpen(true)} />
 
-        {/* Who Do I Help Section */}
-        <WhoIHelp />
+      {/* Upper Hero Headline */}
+      <HeroHeadline />
 
-        {/* Request Your Site Section */}
-        <RequestSite />
-      </main>
+      {/* Centerpiece (Bear Emblem, Floating Leaves, Paved Steps, Badge) */}
+      <Centerpiece />
 
-      {/* Minimalist Dark Footer */}
+      {/* Footer */}
       <Footer />
 
-      {/* Collapsible Slide-in Menu */}
-      <CollapsibleMenu
-        isOpen={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
-        onWhoIHelpClick={handleScrollToWhoIHelp}
-        onRequestSiteClick={handleScrollToRequestSite}
-      />
-
-      {/* Editorial WhatsApp Contact Widget (hidden when in Request Site section or menu is open, and hidden on mobile while in hero section) */}
-      <WhatsAppWidget 
-        isHidden={isMenuOpen || isInRequestSiteSection} 
-        hideOnMobileInHero={isInHeroSection}
-      />
-
-      {/* Testimonials Review Modal (Hash-routed via #testimonial or #testimonials) */}
-      <TestimonialModal />
+      {/* Contact Atelier Modal */}
+      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </div>
   );
 }
-
