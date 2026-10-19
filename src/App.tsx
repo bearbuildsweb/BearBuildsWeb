@@ -3,18 +3,49 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Header } from './components/Header.tsx';
 import { HeroHeadline } from './components/HeroHeadline.tsx';
 import { Centerpiece } from './components/Centerpiece.tsx';
 import { Footer } from './components/Footer.tsx';
 import { ContactModal } from './components/ContactModal.tsx';
+import { GbpDisclosureModal } from './components/GbpDisclosureModal.tsx';
 
 export default function App() {
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isDisclosureOpen, setIsDisclosureOpen] = useState(false);
+
+  // Sync disclosure modal with hash route: /#GBP-management-disclosure
+  useEffect(() => {
+    const checkHashRoute = () => {
+      if (window.location.hash === '#GBP-management-disclosure') {
+        setIsDisclosureOpen(true);
+      } else if (window.location.hash.toLowerCase() === '#gbp-management-disclosure') {
+        setIsDisclosureOpen(true);
+      }
+    };
+
+    checkHashRoute();
+    window.addEventListener('hashchange', checkHashRoute);
+    return () => window.removeEventListener('hashchange', checkHashRoute);
+  }, []);
+
+  const handleOpenDisclosure = useCallback(() => {
+    setIsDisclosureOpen(true);
+    if (window.location.hash !== '#GBP-management-disclosure') {
+      window.location.hash = 'GBP-management-disclosure';
+    }
+  }, []);
+
+  const handleCloseDisclosure = useCallback(() => {
+    setIsDisclosureOpen(false);
+    if (window.location.hash.toLowerCase() === '#gbp-management-disclosure') {
+      window.history.pushState(null, '', window.location.pathname + window.location.search);
+    }
+  }, []);
 
   return (
-    <div className="relative w-full h-screen min-h-[720px] max-h-screen overflow-hidden flex flex-col justify-between select-none font-['Kanit']">
+    <div className="relative w-full h-screen min-h-[720px] overflow-x-hidden overflow-y-auto sm:overflow-hidden flex flex-col justify-between select-none font-['Kanit'] bg-[#41474D]">
       {/* ─────────────────────────────────────────────────────────────
           2-TONE BACKGROUND DIVIDER:
           - Top Background: #FDFAF2 (Warm Vintage Ivory, exactly 67%)
@@ -40,10 +71,13 @@ export default function App() {
       <Centerpiece />
 
       {/* Footer */}
-      <Footer />
+      <Footer onOpenDisclosure={handleOpenDisclosure} />
 
       {/* Contact Atelier Modal */}
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+
+      {/* Google Business Profile Disclosure Modal */}
+      <GbpDisclosureModal isOpen={isDisclosureOpen} onClose={handleCloseDisclosure} />
     </div>
   );
 }
