@@ -81,7 +81,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                   Connect With The Workshop
                 </h3>
                 <p className="text-sm text-[#FDFAF2]/75 mb-6">
-                  Inquire about web design systems, brand foundations, or creative studio consultations.
+                  Inquire about web design systems, brand blueprints, or Google profile foundations.
                 </p>
 
                 {/* Inquiry Type Tabs */}
@@ -106,7 +106,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                         : 'text-[#FDFAF2]/70 hover:text-white'
                     }`}
                   >
-                    Brand Identity
+                    Brand Blueprint
                   </button>
                   <button
                     type="button"
@@ -117,7 +117,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                         : 'text-[#FDFAF2]/70 hover:text-white'
                     }`}
                   >
-                    Foundations
+                    Google Profiles
                   </button>
                 </div>
 
