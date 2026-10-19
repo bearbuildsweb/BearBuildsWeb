@@ -4,26 +4,37 @@
  */
 
 import React from 'react';
-import { Radio } from 'lucide-react';
+import { FolderOpen } from 'lucide-react';
 
-export function Footer() {
+interface FooterProps {
+  onOpenDisclosure?: () => void;
+}
+
+export function Footer({ onOpenDisclosure }: FooterProps) {
   return (
-    <footer className="relative z-30 w-full px-6 md:px-12 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-4 text-[#FDFAF2] shrink-0 border-t border-[#FDFAF2]/15 bg-[#41474D]/95 backdrop-blur-xs">
-      {/* Left: Clean Location Tag */}
-      <div className="flex items-center gap-2 text-xs md:text-sm font-medium">
-        <span className="w-2 h-2 rounded-full bg-[#4d5a26] border border-[#FDFAF2]" />
-        <span className="font-extrabold text-[#FDFAF2] uppercase tracking-wider">
-          CAPE TOWN
+    <footer className="relative z-30 w-full mt-4 sm:mt-0 top-4 sm:top-0 mb-4 sm:mb-0 px-6 md:px-12 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-4 text-[#FDFAF2] shrink-0 border-t border-[#FDFAF2]/15 bg-[#41474D]/95 backdrop-blur-xs">
+      {/* Left: Copyright & Brand Tag */}
+      <div className="flex items-center gap-2 text-xs md:text-sm font-light">
+        <span className="font-light tracking-wide text-[#c6cbba]">
+          ©2026 | BEAR BUILDS WEB
         </span>
       </div>
 
-      {/* Right: Region Status (Light / Not Bold) */}
-      <div className="flex items-center gap-2 text-xs md:text-sm text-[#FDFAF2]">
-        <Radio className="w-3.5 h-3.5 animate-pulse text-[#4d5a26]" />
-        <span className="font-light uppercase tracking-wider text-[#FDFAF2]/90">
-          SOUTH AFRICA
+      {/* Right: Indented Pill CTA for Google Business Profile Disclosure */}
+      <a
+        href="/#GBP-management-disclosure"
+        onClick={(e) => {
+          e.preventDefault();
+          onOpenDisclosure?.();
+        }}
+        className="group inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-[#34393e] border border-[#FDFAF2]/20 shadow-[inset_0_1.5px_3px_rgba(0,0,0,0.45)] hover:bg-[#2c3035] hover:border-[#FDFAF2]/30 active:translate-y-px transition-all cursor-pointer text-xs md:text-sm text-[#FDFAF2]/90 hover:text-[#FDFAF2] focus:outline-none focus:ring-1 focus:ring-[#4d5a26] no-underline"
+        title="Google Business Profile Disclosure"
+      >
+        <FolderOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FDFAF2]/80 group-hover:text-[#FDFAF2] transition-colors shrink-0" strokeWidth={2} />
+        <span className="font-light tracking-wide text-[#FDFAF2]/90">
+          Google Business Profile Disclosure
         </span>
-      </div>
+      </a>
     </footer>
   );
 }
